@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Alumno;
+
 
 /**
  *
@@ -58,7 +58,11 @@ public class OperacionBD {
         }
         return estado;
     }
+  
     
+    
+    
+    /**
     public ArrayList<Alumno> consultarAlumnos(){
         ArrayList<Alumno> alumnos= new ArrayList<>();
         Statement sentenciaSQL;
@@ -131,5 +135,5 @@ public class OperacionBD {
         }
         return estado;
     }
-
+**/
 }
