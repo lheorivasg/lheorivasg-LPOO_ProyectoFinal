@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author Kirig
+ * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
  */
 public class Socio {
     
