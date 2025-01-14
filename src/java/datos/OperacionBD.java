@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author josue
+ * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
  */
 public class OperacionBD {
 
@@ -28,6 +28,11 @@ public class OperacionBD {
     private static final String URL = "jdbc:mysql://localhost:3306/";
     private Connection conexion;
 
+    /**
+     * Establece una conexion a la base de datos
+     * 
+     * @return true si la conexion fue exitosa, false en caso contrario
+     */
     public boolean conectar() {
         boolean estado = false;
         try {
@@ -47,6 +52,12 @@ public class OperacionBD {
         return estado;
     }
     
+    
+    /**
+     * Cierra la conexion a la base de datos
+     * 
+     * @return true si la desconexion fue exitosa, false en caso contrario
+     */
     public boolean desconectar(){
         boolean estado= false;
         try {
