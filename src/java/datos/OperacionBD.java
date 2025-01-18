@@ -25,7 +25,7 @@ public class OperacionBD {
 
     private static final String USUARIO = "root";
     private static final String PSWD = "root";
-    private static final String BD = "escuela";
+    private static final String BD = "gimnasio";
     private static final String URL = "jdbc:mysql://localhost:3306/";
     private Connection conexion;
 
