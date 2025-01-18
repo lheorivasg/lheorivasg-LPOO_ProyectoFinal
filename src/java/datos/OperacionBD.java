@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.Socio;
 
 
 /**
@@ -73,31 +74,39 @@ public class OperacionBD {
     
     
     
-    /**
-    public ArrayList<Alumno> consultarAlumnos(){
-        ArrayList<Alumno> alumnos= new ArrayList<>();
+    
+    public ArrayList<Socio> consultarSocio(){
+        ArrayList<Socio> socios= new ArrayList<>();
         Statement sentenciaSQL;
         ResultSet rs;
         
         try {
-            sentenciaSQL= conexion.createStatement();
-            rs=sentenciaSQL.executeQuery("SELECT * FROM alumnos");
-            
-             while(rs.next()){
-                Alumno al= new Alumno();
-                al.setMatricula(rs.getString(1));
-                al.setNombre(rs.getString(2));
-                al.setEdad(rs.getInt(3));
-                alumnos.add(al);
+            sentenciaSQL = conexion.createStatement();
+            rs = sentenciaSQL.executeQuery("SELECT * FROM socios");
+
+            while (rs.next()) {
+                Socio sl = new Socio();
+                sl.setIdSocio(rs.getString(1)); // Ajuste: getInt para id_socio
+                sl.setNombre(rs.getString(2)); // Nombre
+                sl.setFechaNacimiento(rs.getDate(3).toLocalDate()); // Conversión de Date a LocalDate
+                sl.setTelefono(rs.getString(4)); // Teléfono
+                sl.setEmail(rs.getString(5)); // Email
+                sl.setFechaInscripcion(rs.getDate(6).toLocalDate()); // Conversión de Date a LocalDate
+                sl.setMembresia(rs.getString(7)); // Membresía
+                sl.setEstado(rs.getString(8)); // Estado
+                socios.add(sl); // Añadir a la lista
             }
             
         } catch (SQLException ex) {
             System.out.println("Error 1: "+ex.getMessage());
         }
-        return alumnos;
+        return socios;
     }
     
-    public boolean agregarAlumno(Alumno alumno){
+    
+    /**
+    
+    public boolean agregarSocio(Socio socio){
         boolean estado=false;
         PreparedStatement ps;
         String query="INSERT INTO alumnos VALUES(?,?,?)";
