@@ -14,7 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Socio;
+import modelo.*;
 
 
 /**
@@ -104,18 +104,23 @@ public class OperacionBD {
     }
     
     
-    /**
+
     
     public boolean agregarSocio(Socio socio){
         boolean estado=false;
         PreparedStatement ps;
-        String query="INSERT INTO alumnos VALUES(?,?,?)";
+        String query="INSERT INTO Socios VALUES(?,?,?)";
         
         try {
             ps=conexion.prepareStatement(query);
-            ps.setString(1, alumno.getMatricula());
-            ps.setString(2, alumno.getNombre());
-            ps.setInt(3, alumno.getEdad());
+            ps.setString(1, socio.getIdSocio());
+            ps.setString(2, socio.getNombre());
+            ps.setDate(3, java.sql.Date.valueOf(socio.getFechaNacimiento()));
+            ps.setString(4, socio.getTelefono());
+            ps.setString(5, socio.getEmail());
+            ps.setDate(6, java.sql.Date.valueOf(socio.getFechaInscripcion()));
+            ps.setString(7, socio.getMembresia());
+            ps.setString(8, socio.getEstado());
             ps.execute();
             estado=true;
         } catch (SQLException ex) {
@@ -124,10 +129,10 @@ public class OperacionBD {
         return estado;
     }
     
-    public boolean eliminarAlumno(String matricula){
+    public boolean eliminarSocio(String idSocio){
         boolean estado=false;
         Statement st;
-        String query= "DELETE FROM alumnos WHERE matricula='"+matricula+"'";
+        String query= "DELETE FROM alumnos WHERE matricula='"+idSocio+"'";
         
         try {
             st= conexion.createStatement();
@@ -138,16 +143,24 @@ public class OperacionBD {
         }
         return estado;
     }
-    
-    public boolean actualizarAlumno(String nombre, String matricula){
+
+  
+    public boolean actualizarSocio(Socio socio){
         boolean estado=false;
         PreparedStatement ps;
-        String query= "UPDATE alumnos SET nombre=? WHERE matricula=?";
+        String query= "UPDATE Socios SET nombre=? WHERE id_socio=?";
         
         try {
             ps=conexion.prepareStatement(query);
-            ps.setString(1, nombre);
-            ps.setString(2, matricula);
+            ps.setString(1, socio.getIdSocio());
+            ps.setString(2, socio.getNombre());
+            ps.setDate(3, java.sql.Date.valueOf(socio.getFechaNacimiento()));
+            ps.setString(4, socio.getTelefono());
+            ps.setString(5, socio.getEmail());
+            ps.setDate(6, java.sql.Date.valueOf(socio.getFechaInscripcion()));
+            ps.setString(7, socio.getMembresia());
+            ps.setString(8, socio.getEstado());
+
             ps.execute();
             estado=true;
         } catch (SQLException ex) {
@@ -155,5 +168,5 @@ public class OperacionBD {
         }
         return estado;
     }
-**/
+
 }
