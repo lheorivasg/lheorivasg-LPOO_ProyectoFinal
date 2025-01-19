@@ -102,8 +102,62 @@ public class OperacionBD {
         }
         return socios;
     }
+  
+     public ArrayList<Entrenador> consultarEntrenador(){
+        ArrayList<Entrenador> entrenadores= new ArrayList<>();
+        Statement sentenciaSQL;
+        ResultSet rs;
+        
+        try {
+            sentenciaSQL = conexion.createStatement();
+            rs = sentenciaSQL.executeQuery("SELECT * FROM socios");
+
+            while (rs.next()) {
+                Entrenador el = new Entrenador();
+                el.setIdEntrenador(rs.getString(1)); // Ajuste: getInt para id_socio
+                el.setNombre(rs.getString(2)); // Nombre
+                el.setEspecialidad(rs.getString(3)); // Conversión de Date a LocalDate
+                el.setTelefono(rs.getString(4)); // Teléfono
+                el.setHorario(rs.getString(5)); // Email
+                el.setEstado(rs.getString(6)); // Estado
+                entrenadores.add(el); // Añadir a la lista
+            }
+            
+        } catch (SQLException ex) {
+            System.out.println("Error 1: "+ex.getMessage());
+        }
+        return entrenadores;
+    }   
     
-    
+     
+    public ArrayList<Maquina> consultarMaquinas() {
+        ArrayList<Maquina> maqList = new ArrayList<>();
+        Statement sentenciaSQL;
+        ResultSet rs;
+
+        try {
+            sentenciaSQL = conexion.createStatement();
+            rs = sentenciaSQL.executeQuery("SELECT * FROM Maquinas");
+
+            while (rs.next()) {
+                Maquina maq = new Maquina();
+
+                maq.setId_maquina(rs.getInt(1));
+                maq.setNombre(rs.getString(2));
+                maq.setTipo(rs.getString(3));
+                maq.setUbicacion(rs.getString(4));
+                maq.setEstado(rs.getString(5));
+
+                maqList.add(maq);
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error 1: " + ex.getMessage());
+        }
+        System.out.println("Número de máquinas recuperadas: " + maqList.size());
+        return maqList;
+    }     
 
     
     public boolean agregarSocio(Socio socio){

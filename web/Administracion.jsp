@@ -15,9 +15,9 @@
         <h1>Opciones de Gestion</h1>
         <nav>
             <ul>
-                <li><a href="ModAdministracion.jsp">Consultar Socios</a></li>
-                <li><a href="ModSocios.jsp">Consultar Entrenadores</a></li>
-                <li><a href="Modentrenadores.jsp">Consultar Maquinas</a></li>
+                <li><a href="ModSocios.jsp">Consultar Socios</a></li>
+                <li><a href="ModEntrenadores.jsp">Consultar Entrenadores</a></li>
+                <li><a href="ModMaquinas.jsp">Consultar Maquinas</a></li>
             </ul>
         </nav>
 

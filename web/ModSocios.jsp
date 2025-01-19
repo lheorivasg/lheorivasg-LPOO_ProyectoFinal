@@ -4,74 +4,82 @@
     Author     : Kirig
 --%>
 
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
-<%@ page import="java.sql.*" %>
+<%@page import="modelo.Socio"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
 <%@ page import="datos.OperacionBD" %>
-<%@ page import="modelo.Socio" %>
-
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Socios del Gimnasio</title>
+    <title>Administración de Socios</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
+    <h1>Lista de Socios</h1>
 
-    <h2>Lista de Socios</h2>
+    <%
+        OperacionBD operacionBD = new OperacionBD();
+        List<Socio> listaSocios = new ArrayList<>();
 
-    <form action="Socios.jsp" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" name="nombre" id="nombre" required />
-        <label for="telefono">Teléfono:</label>
-        <input type="text" name="telefono" id="telefono" />
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" name="email" id="email" />
-        <label for="membresia">Membresía:</label>
-        <input type="text" name="membresia" id="membresia" />
-        <label for="estado">Estado:</label>
-        <input type="text" name="estado" id="estado" />
-        <button type="submit" name="accion" value="agregar">Agregar Socio</button>
-    </form>
+        try {
+            if (operacionBD.conectar()) {
+                listaSocios = operacionBD.consultarSocio();
+                operacionBD.desconectar();
+            } else {
+                out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
+            }
+        } catch (Exception e) {
+            out.println("<p>Error: " + e.getMessage() + "</p>");
+        }
+    %>
 
-    <c:if test="${not empty socios}">
-        <table border="1">
+    <% if (listaSocios == null || listaSocios.isEmpty()) { %>
+        <p>No hay datos disponibles.</p>
+    <% } else { %>
+        <table>
             <thead>
                 <tr>
                     <th>ID Socio</th>
                     <th>Nombre</th>
+                    <th>Fecha de Nacimiento</th>
                     <th>Teléfono</th>
                     <th>Email</th>
+                    <th>Fecha de Inscripción</th>
                     <th>Membresía</th>
                     <th>Estado</th>
-                    <th>Acción</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="socio" items="${socios}">
+                <% for (Socio socio : listaSocios) { %>
                     <tr>
-                        <td>${socio.idSocio}</td>
-                        <td>${socio.nombre}</td>
-                        <td>${socio.telefono}</td>
-                        <td>${socio.email}</td>
-                        <td>${socio.membresia}</td>
-                        <td>${socio.estado}</td>
-                        <td>
-                            <a href="editarSocio.jsp?id=${socio.idSocio}">Editar</a>
-                            <a href="Socios.jsp?action=eliminar&id=${socio.idSocio}">Eliminar</a>
-                        </td>
+                        <td><%= socio.getIdSocio() %></td>
+                        <td><%= socio.getNombre() %></td>
+                        <td><%= socio.getFechaNacimiento() %></td>
+                        <td><%= socio.getTelefono() %></td>
+                        <td><%= socio.getEmail() %></td>
+                        <td><%= socio.getFechaInscripcion() %></td>
+                        <td><%= socio.getMembresia() %></td>
+                        <td><%= socio.getEstado() %></td>
                     </tr>
-                </c:forEach>
+                <% } %>
             </tbody>
         </table>
-    </c:if>
-
-    <c:if test="${not empty errorMessage}">
-        <p style="color:red;">${errorMessage}</p>
-    </c:if>
-
+    <% } %>
 </body>
 </html>
 
