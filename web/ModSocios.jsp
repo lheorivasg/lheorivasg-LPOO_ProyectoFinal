@@ -102,6 +102,7 @@
         <input type="submit" value="Eliminar Socio">
     </form>
 
+    
     <%
         OperacionBD operacionBD = new OperacionBD();
         List<Socio> listaSocios = new ArrayList<>();
