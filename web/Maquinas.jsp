@@ -59,7 +59,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>ID Máquina</th>
                     <th>Nombre</th>
                     <th>Tipo</th>
                     <th>Ubicación</th>
@@ -69,7 +68,6 @@
             <tbody>
                 <% for (Maquina maquina : listaMaquinas) { %>
                     <tr>
-                        <td><%= maquina.getId_maquina() %></td>
                         <td><%= maquina.getNombre() %></td>
                         <td><%= maquina.getTipo() %></td>
                         <td><%= maquina.getUbicacion() %></td>
