@@ -130,7 +130,7 @@ public class OperacionBD {
     }   
     
      
-    public ArrayList<Maquina> consultarMaquinas() {
+    public ArrayList<Maquina> consultarMaquina() {
         ArrayList<Maquina> maqList = new ArrayList<>();
         Statement sentenciaSQL;
         ResultSet rs;
@@ -142,7 +142,7 @@ public class OperacionBD {
             while (rs.next()) {
                 Maquina maq = new Maquina();
 
-                maq.setId_maquina(rs.getInt(1));
+                maq.setId_maquina(rs.getString(1));
                 maq.setNombre(rs.getString(2));
                 maq.setTipo(rs.getString(3));
                 maq.setUbicacion(rs.getString(4));
@@ -183,6 +183,56 @@ public class OperacionBD {
         return estado;
     }
     
+    
+    
+    
+        public boolean agregarEntrenador(Entrenador entrenador){
+        boolean estado=false;
+        PreparedStatement ps;
+        String query="INSERT INTO Entrenadores VALUES(?,?,?)";
+        
+        try {
+            ps=conexion.prepareStatement(query);
+            ps.setString(1, entrenador.getIdEntrenador());
+            ps.setString(2, entrenador.getNombre());
+            ps.setString(4, entrenador.getEspecialidad());
+            ps.setString(5, entrenador.getTelefono());
+            ps.setString(7, entrenador.getHorario());
+            ps.setString(8, entrenador.getEstado());
+            ps.execute();
+            estado=true;
+        } catch (SQLException ex) {
+            System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    }
+        
+        
+        
+        public boolean agregarMaquina(Maquina maquina){
+        boolean estado=false;
+        PreparedStatement ps;
+        String query="INSERT INTO Maquinas VALUES(?,?,?)";
+        
+        try {
+            ps=conexion.prepareStatement(query);
+            ps.setString(1, maquina.getId_maquina());
+            ps.setString(2, maquina.getNombre());
+            ps.setString(4, maquina.getTipo());
+            ps.setString(5, maquina.getUbicacion());
+            ps.setString(7, maquina.getEstado());
+            ps.execute();
+            estado=true;
+        } catch (SQLException ex) {
+            System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    } 
+    
+    
+    
+    
+    
     public boolean eliminarSocio(String idSocio){
         boolean estado=false;
         Statement st;
@@ -197,7 +247,41 @@ public class OperacionBD {
         }
         return estado;
     }
+    
+    
+    public boolean eliminarEntrenador(String idEntrenador){
+        boolean estado=false;
+        Statement st;
+        String query= "DELETE FROM alumnos WHERE matricula='"+idEntrenador+"'";
+        
+        try {
+            st= conexion.createStatement();
+            st.executeUpdate(query);
+            estado=true;
+        } catch (SQLException ex) {
+            System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    }    
 
+    
+    public boolean eliminarMaquina(String id_maquina){
+        boolean estado=false;
+        Statement st;
+        String query= "DELETE FROM alumnos WHERE matricula='"+id_maquina+"'";
+        
+        try {
+            st= conexion.createStatement();
+            st.executeUpdate(query);
+            estado=true;
+        } catch (SQLException ex) {
+            System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    }
+
+
+    
   
     public boolean actualizarSocio(Socio socio){
         boolean estado=false;

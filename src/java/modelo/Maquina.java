@@ -10,7 +10,7 @@ package modelo;
  * @author Kirig
  */
 public class Maquina {
-    private int id_maquina;
+    private String id_maquina;
     private String nombre;
     private String tipo;
     private String ubicacion;
@@ -19,7 +19,7 @@ public class Maquina {
     public Maquina() {
     }
 
-    public Maquina(int id_maquina, String nombre, String tipo, String ubicacion, String estado) {
+    public Maquina(String id_maquina, String nombre, String tipo, String ubicacion, String estado) {
         this.id_maquina = id_maquina;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -27,11 +27,11 @@ public class Maquina {
         this.estado = estado;
     }
 
-    public int getId_maquina() {
+    public String getId_maquina() {
         return id_maquina;
     }
 
-    public void setId_maquina(int id_maquina) {
+    public void setId_maquina(String id_maquina) {
         this.id_maquina = id_maquina;
     }
 

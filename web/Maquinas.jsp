@@ -4,53 +4,80 @@
     Author     : max-1
 --%>
 
-<%@page import="modelo.Maquina"%>
-<%@page import="datos.OperacionBD"%>
-<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelo.Maquina"%>
+<%@ page import="java.util.List" %>
+<%@ page import="datos.OperacionBD" %>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Maquinas Gym</title>
-    </head>
-    <body>
-        <h1>Menú de Máquinas</h1>
-        <h2>Lista de máquinas</h2>
-        <a href="Maquinas.jsp">Maquinas</a>
-        <%
-            ArrayList<Maquina> listMaq = (ArrayList<Maquina>) request.getAttribute("listMaq");
-            if (listMaq != null) {
-        %>
-        <table border="1">
-            <tr>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Ubicación</th>
-                <th>Estado</th>
-            </tr>
-            <%
-                for (Maquina maquina : listMaq) {
-            %>
-            <tr>
-                
-                <td><%= maquina.getNombre()%></td>
-                <td><%= maquina.getTipo()%></td>
-                <td><%= maquina.getUbicacion()%></td>
-                <td><%= maquina.getEstado()%></td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
-        <%
-        } else {
-        %>
-        <p>No se encontraron máquinas disponibles.</p>
-        <%
+<head>
+    <meta charset="UTF-8">
+    <title>Administración de Máquinas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <%
+        OperacionBD operacionBD = new OperacionBD();
+        List<Maquina> listaMaquinas = new ArrayList<>();
+
+        try {
+            if (operacionBD.conectar()) {
+                listaMaquinas = operacionBD.consultarMaquina();
+                operacionBD.desconectar();
+            } else {
+                out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
             }
-        %>
+        } catch (Exception e) {
+            out.println("<p>Error: " + e.getMessage() + "</p>");
+        }
+    %>
 
-    </body>
-
+    <% if (listaMaquinas == null || listaMaquinas.isEmpty()) { %>
+        <p>No hay datos disponibles.</p>
+    <% } else { %>
+        <h2>Lista de Máquinas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Máquina</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (Maquina maquina : listaMaquinas) { %>
+                    <tr>
+                        <td><%= maquina.getId_maquina() %></td>
+                        <td><%= maquina.getNombre() %></td>
+                        <td><%= maquina.getTipo() %></td>
+                        <td><%= maquina.getUbicacion() %></td>
+                        <td><%= maquina.getEstado() %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
 </html>

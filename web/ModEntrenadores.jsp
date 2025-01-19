@@ -36,13 +36,66 @@
 <body>
     <h1>Administración de Entrenadores</h1>
 
+    <!-- Formulario para Agregar Entrenador -->
+    <h2>Agregar Nuevo Entrenador</h2>
+    <form action="ModEntrenadores.jsp" method="post">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="especialidad">Especialidad:</label><br>
+        <input type="text" id="especialidad" name="especialidad" required><br><br>
+
+        <label for="telefono">Teléfono:</label><br>
+        <input type="text" id="telefono" name="telefono" required><br><br>
+
+        <label for="horario">Horario:</label><br>
+        <input type="text" id="horario" name="horario" required><br><br>
+
+        <label for="estado">Estado:</label><br>
+        <input type="text" id="estado" name="estado" required><br><br>
+
+        <input type="submit" value="Agregar Entrenador">
+    </form>
+
+    <!-- Formulario para Modificar Entrenador -->
+    <h2>Modificar Entrenador</h2>
+    <form action="ModEntrenadores.jsp" method="post">
+        <label for="idEntrenadorModificar">ID Entrenador:</label><br>
+        <input type="text" id="idEntrenadorModificar" name="idEntrenadorModificar" required><br><br>
+
+        <label for="nuevoNombre">Nuevo Nombre:</label><br>
+        <input type="text" id="nuevoNombre" name="nuevoNombre"><br><br>
+
+        <label for="nuevaEspecialidad">Nueva Especialidad:</label><br>
+        <input type="text" id="nuevaEspecialidad" name="nuevaEspecialidad"><br><br>
+
+        <label for="nuevoTelefono">Nuevo Teléfono:</label><br>
+        <input type="text" id="nuevoTelefono" name="nuevoTelefono"><br><br>
+
+        <label for="nuevoHorario">Nuevo Horario:</label><br>
+        <input type="text" id="nuevoHorario" name="nuevoHorario"><br><br>
+
+        <label for="nuevoEstado">Nuevo Estado:</label><br>
+        <input type="text" id="nuevoEstado" name="nuevoEstado"><br><br>
+
+        <input type="submit" value="Modificar Entrenador">
+    </form>
+
+    <!-- Formulario para Eliminar Entrenador -->
+    <h2>Eliminar Entrenador</h2>
+    <form action="ModEntrenadores.jsp" method="post">
+        <label for="idEntrenadorEliminar">ID Entrenador:</label><br>
+        <input type="text" id="idEntrenadorEliminar" name="idEntrenadorEliminar" required><br><br>
+
+        <input type="submit" value="Eliminar Entrenador">
+    </form>
+
     <%
         OperacionBD operacionBD = new OperacionBD();
         List<Entrenador> listaEntrenadores = new ArrayList<>();
 
         try {
             if (operacionBD.conectar()) {
-                // Método para consultar entrenadores desde la base de datos
                 listaEntrenadores = operacionBD.consultarEntrenador();
                 operacionBD.desconectar();
             } else {
@@ -64,8 +117,7 @@
                     <th>Nombre</th>
                     <th>Especialidad</th>
                     <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Años de Experiencia</th>
+                    <th>Horario</th>
                     <th>Estado</th>
                 </tr>
             </thead>
@@ -85,4 +137,3 @@
     <% } %>
 </body>
 </html>
-
