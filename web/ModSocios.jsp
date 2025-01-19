@@ -28,10 +28,79 @@
         th {
             background-color: #f2f2f2;
         }
+        form {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Lista de Socios</h1>
+    <h1>Administración de Socios</h1>
+
+    <!-- Formulario para Agregar Socio -->
+    <h2>Agregar Nuevo Socio</h2>
+    <form action="ModSocios.jsp" method="post">
+        <label for="nombre">Nombre:</label><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="fechaNacimiento">Fecha de Nacimiento:</label><br>
+        <input type="date" id="fechaNacimiento" name="fechaNacimiento" required><br><br>
+
+        <label for="telefono">Teléfono:</label><br>
+        <input type="text" id="telefono" name="telefono" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="fechaInscripcion">Fecha de Inscripción:</label><br>
+        <input type="date" id="fechaInscripcion" name="fechaInscripcion" required><br><br>
+
+        <label for="membresia">Membresía:</label><br>
+        <input type="text" id="membresia" name="membresia" required><br><br>
+
+        <label for="estado">Estado:</label><br>
+        <input type="text" id="estado" name="estado" required><br><br>
+
+        <input type="submit" value="Agregar Socio">
+    </form>
+
+    <!-- Formulario para Modificar Socio -->
+    <h2>Modificar Socio</h2>
+    <form action="ModSocios.jsp" method="post">
+        <label for="idSocioModificar">ID Socio:</label><br>
+        <input type="number" id="idSocioModificar" name="idSocioModificar" required><br><br>
+
+        <label for="nuevoNombre">Nuevo Nombre:</label><br>
+        <input type="text" id="nuevoNombre" name="nuevoNombre"><br><br>
+
+        <label for="nuevaFechaNacimiento">Nueva Fecha de Nacimiento:</label><br>
+        <input type="date" id="nuevaFechaNacimiento" name="nuevaFechaNacimiento"><br><br>
+
+        <label for="nuevoTelefono">Nuevo Teléfono:</label><br>
+        <input type="text" id="nuevoTelefono" name="nuevoTelefono"><br><br>
+
+        <label for="nuevoEmail">Nuevo Email:</label><br>
+        <input type="email" id="nuevoEmail" name="nuevoEmail"><br><br>
+
+        <label for="nuevaFechaInscripcion">Nueva Fecha de Inscripción:</label><br>
+        <input type="date" id="nuevaFechaInscripcion" name="nuevaFechaInscripcion"><br><br>
+
+        <label for="nuevaMembresia">Nueva Membresía:</label><br>
+        <input type="text" id="nuevaMembresia" name="nuevaMembresia"><br><br>
+
+        <label for="nuevoEstado">Nuevo Estado:</label><br>
+        <input type="text" id="nuevoEstado" name="nuevoEstado"><br><br>
+
+        <input type="submit" value="Modificar Socio">
+    </form>
+
+    <!-- Formulario para Eliminar Socio -->
+    <h2>Eliminar Socio</h2>
+    <form action="ModSocios.jsp" method="post">
+        <label for="idSocioEliminar">ID Socio:</label><br>
+        <input type="number" id="idSocioEliminar" name="idSocioEliminar" required><br><br>
+
+        <input type="submit" value="Eliminar Socio">
+    </form>
 
     <%
         OperacionBD operacionBD = new OperacionBD();
@@ -52,6 +121,7 @@
     <% if (listaSocios == null || listaSocios.isEmpty()) { %>
         <p>No hay datos disponibles.</p>
     <% } else { %>
+        <h2>Lista de Socios</h2>
         <table>
             <thead>
                 <tr>
@@ -83,4 +153,3 @@
     <% } %>
 </body>
 </html>
-
