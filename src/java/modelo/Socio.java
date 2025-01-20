@@ -21,6 +21,36 @@ public class Socio {
     private String membresia;
     private String estado;
 
+    public Socio(String idSocio, String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String membresia, String estado) {
+        this.idSocio = idSocio;
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.email = email;
+        this.fechaInscripcion = fechaInscripcion;
+        this.membresia = membresia;
+        this.estado = estado;
+    }
+
+    public Socio() {
+    }
+
+    public Socio(String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String membresia, String estado) {
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.email = email;
+        this.fechaInscripcion = fechaInscripcion;
+        this.membresia = membresia;
+        this.estado = estado;
+    }
+
+    
+    
+    
+    
+    
+    
     public String getIdSocio() {
         return idSocio;
     }

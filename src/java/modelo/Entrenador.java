@@ -17,6 +17,24 @@ public class Entrenador {
     private String horario;
     private String estado;
 
+    public Entrenador(String idEntrenador, String nombre, String especialidad, String telefono, String horario, String estado) {
+        this.idEntrenador = idEntrenador;
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.telefono = telefono;
+        this.horario = horario;
+        this.estado = estado;
+    }
+
+    public Entrenador() {
+    }
+
+    
+    
+    
+    
+    
+    
     public String getIdEntrenador() {
         return idEntrenador;
     }
