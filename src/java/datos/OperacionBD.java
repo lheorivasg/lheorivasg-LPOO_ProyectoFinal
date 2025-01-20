@@ -306,5 +306,47 @@ public class OperacionBD {
         }
         return estado;
     }
+    
+    public boolean actualizarEntrenador(Entrenador entrenador){
+        boolean estado=false;
+        PreparedStatement ps;
+        String query= "UPDATE Socios SET nombre=? WHERE id_entrenador=?";
+        
+        try {
+            ps=conexion.prepareStatement(query);
+            ps.setString(1, entrenador.getIdEntrenador());
+            ps.setString(2, entrenador.getNombre());
+            ps.setString(4, entrenador.getEspecialidad());
+            ps.setString(5, entrenador.getTelefono());
+            ps.setString(7, entrenador.getHorario());
+            ps.setString(8, entrenador.getEstado());
+            ps.execute();
+            estado=true;
+        } catch (SQLException ex) {
+           System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    }
+
+
+    public boolean actualizarMaquina(Maquina maquina){
+        boolean estado=false;
+        PreparedStatement ps;
+        String query= "UPDATE Socios SET nombre=? WHERE id_maquina=?";
+        
+        try {
+            ps=conexion.prepareStatement(query);
+            ps.setString(1, maquina.getId_maquina());
+            ps.setString(2, maquina.getNombre());
+            ps.setString(4, maquina.getTipo());
+            ps.setString(5, maquina.getUbicacion());
+            ps.setString(7, maquina.getEstado());
+            ps.execute();
+            estado=true;
+        } catch (SQLException ex) {
+           System.out.println("Error 1: "+ex.getMessage());
+        }
+        return estado;
+    }    
 
 }
