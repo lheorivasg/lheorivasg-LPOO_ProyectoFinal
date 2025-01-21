@@ -3,10 +3,7 @@
     Created on : Jan 18, 2025, 3:11:14 PM
     Author     : Kirig
 --%>
-
 <%@page import="java.util.List"%>
-<%@page import="java.time.LocalDate"%>
-<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="modelo.Socio"%>
 <%@page import="datos.OperacionBD"%>
 <!DOCTYPE html>
@@ -41,70 +38,43 @@
 
         try {
             if (operacionBD.conectar()) {
-                // Parámetros del formulario
                 String accion = request.getParameter("accion");
+
                 if ("agregar".equals(accion)) {
-                    // Agregar socio
-                    String nombre = request.getParameter("nombre");
-                    String fechaNacimientoStr = request.getParameter("fechaNacimiento");
-                    String telefono = request.getParameter("telefono");
-                    String email = request.getParameter("email");
-                    String fechaInscripcionStr = request.getParameter("fechaInscripcion");
-                    String membresia = request.getParameter("membresia");
-                    String estado = request.getParameter("estado");
+                    Socio nuevoSocio = new Socio();
+                    nuevoSocio.setNombre(request.getParameter("nombre"));
+                    nuevoSocio.setFechaNacimiento(java.time.LocalDate.parse(request.getParameter("fechaNacimiento")));
+                    nuevoSocio.setTelefono(request.getParameter("telefono"));
+                    nuevoSocio.setEmail(request.getParameter("email"));
+                    nuevoSocio.setFechaInscripcion(java.time.LocalDate.parse(request.getParameter("fechaInscripcion")));
+                    nuevoSocio.setMembresia(request.getParameter("membresia"));
+                    nuevoSocio.setEstado(request.getParameter("estado"));
 
-                    if (nombre != null && fechaNacimientoStr != null && fechaInscripcionStr != null) {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                        LocalDate fechaNacimiento = LocalDate.parse(fechaNacimientoStr, formatter);
-                        LocalDate fechaInscripcion = LocalDate.parse(fechaInscripcionStr, formatter);
-
-                        Socio nuevoSocio = new Socio();
-                        nuevoSocio.setNombre(nombre);
-                        nuevoSocio.setFechaNacimiento(fechaNacimiento);
-                        nuevoSocio.setTelefono(telefono);
-                        nuevoSocio.setEmail(email);
-                        nuevoSocio.setFechaInscripcion(fechaInscripcion);
-                        nuevoSocio.setMembresia(membresia);
-                        nuevoSocio.setEstado(estado);
-
-                        boolean agregado = operacionBD.agregarSocio(nuevoSocio);
-                        mensaje = agregado ? "Socio agregado con éxito." : "Error al agregar el socio.";
-                    }
+                    boolean resultado = operacionBD.agregarSocio(nuevoSocio);
+                    mensaje = resultado ? "Socio agregado con éxito." : "Error al agregar el socio.";
                 } else if ("eliminar".equals(accion)) {
-                    // Eliminar socio
                     String idSocio = request.getParameter("idSocio");
                     if (idSocio != null && !idSocio.isEmpty()) {
-                        boolean eliminado = operacionBD.eliminarSocio(idSocio);
-                        mensaje = eliminado ? "Socio eliminado con éxito." : "Error al eliminar el socio.";
+                        boolean resultado = operacionBD.eliminarSocio(idSocio);
+                        mensaje = resultado ? "Socio eliminado con éxito." : "Error al eliminar el socio.";
                     }
                 } else if ("actualizar".equals(accion)) {
-                    // Actualizar socio
-                    String idSocio = request.getParameter("idSocioActualizar");
-                    String nombre = request.getParameter("nuevoNombre");
-                    String fechaNacimientoStr = request.getParameter("nuevaFechaNacimiento");
-                    String telefono = request.getParameter("nuevoTelefono");
-                    String email = request.getParameter("nuevoEmail");
-                    String fechaInscripcionStr = request.getParameter("nuevaFechaInscripcion");
-                    String membresia = request.getParameter("nuevaMembresia");
-                    String estado = request.getParameter("nuevoEstado");
+                    Socio socioActualizado = new Socio();
+                    socioActualizado.setIdSocio(request.getParameter("idSocioActualizar"));
+                    socioActualizado.setNombre(request.getParameter("nuevoNombre"));
+                    socioActualizado.setFechaNacimiento(request.getParameter("nuevaFechaNacimiento") != null
+                        ? java.time.LocalDate.parse(request.getParameter("nuevaFechaNacimiento")) : null);
+                    socioActualizado.setTelefono(request.getParameter("nuevoTelefono"));
+                    socioActualizado.setEmail(request.getParameter("nuevoEmail"));
+                    socioActualizado.setFechaInscripcion(request.getParameter("nuevaFechaInscripcion") != null
+                        ? java.time.LocalDate.parse(request.getParameter("nuevaFechaInscripcion")) : null);
+                    socioActualizado.setMembresia(request.getParameter("nuevaMembresia"));
+                    socioActualizado.setEstado(request.getParameter("nuevoEstado"));
 
-                    if (idSocio != null && !idSocio.isEmpty()) {
-                        Socio socioActualizado = new Socio();
-                        socioActualizado.setIdSocio(idSocio);
-                        socioActualizado.setNombre(nombre);
-                        socioActualizado.setFechaNacimiento(fechaNacimientoStr != null && !fechaNacimientoStr.isEmpty()
-                                ? LocalDate.parse(fechaNacimientoStr) : null);
-                        socioActualizado.setTelefono(telefono);
-                        socioActualizado.setEmail(email);
-                        socioActualizado.setFechaInscripcion(fechaInscripcionStr != null && !fechaInscripcionStr.isEmpty()
-                                ? LocalDate.parse(fechaInscripcionStr) : null);
-                        socioActualizado.setMembresia(membresia);
-                        socioActualizado.setEstado(estado);
-
-                        boolean actualizado = operacionBD.actualizarSocio(socioActualizado);
-                        mensaje = actualizado ? "Socio actualizado con éxito." : "Error al actualizar el socio.";
-                    }
+                    boolean resultado = operacionBD.actualizarSocio(socioActualizado);
+                    mensaje = resultado ? "Socio actualizado con éxito." : "Error al actualizar el socio.";
                 }
+
                 operacionBD.desconectar();
             } else {
                 mensaje = "Error al conectar con la base de datos.";
@@ -114,7 +84,6 @@
         }
     %>
 
-    <!-- Mostrar mensaje de resultado -->
     <% if (!mensaje.isEmpty()) { %>
         <p><%= mensaje %></p>
     <% } %>
@@ -152,7 +121,7 @@
     <form action="ModSocios.jsp" method="post">
         <input type="hidden" name="accion" value="eliminar">
         <label for="idSocio">ID del Socio:</label>
-        <input type="number" id="idSocio" name="idSocio" required><br><br>
+        <input type="text" id="idSocio" name="idSocio" required><br><br>
         <input type="submit" value="Eliminar Socio">
     </form>
 
@@ -161,7 +130,7 @@
     <form action="ModSocios.jsp" method="post">
         <input type="hidden" name="accion" value="actualizar">
         <label for="idSocioActualizar">ID del Socio:</label>
-        <input type="number" id="idSocioActualizar" name="idSocioActualizar" required><br><br>
+        <input type="text" id="idSocioActualizar" name="idSocioActualizar" required><br><br>
 
         <label for="nuevoNombre">Nuevo Nombre:</label>
         <input type="text" id="nuevoNombre" name="nuevoNombre"><br><br>

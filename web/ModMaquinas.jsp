@@ -4,17 +4,14 @@
     Author     : Kirig
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="modelo.Maquina"%>
-<%@ page import="java.util.List" %>
-<%@ page import="datos.OperacionBD" %>
-
+<%@page import="datos.OperacionBD"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AdministraciÃ³n de MÃ¡quinas</title>
+    <title>Administración de Máquinas</title>
     <style>
         table {
             width: 100%;
@@ -34,98 +31,150 @@
     </style>
 </head>
 <body>
-    <h1>AdministraciÃ³n de MÃ¡quinas</h1>
+    <h1>Administración de Máquinas</h1>
 
-    <!-- Formulario para Agregar MÃ¡quina -->
-    <h2>Agregar Nueva MÃ¡quina</h2>
-    <form action="ModMaquinas.jsp" method="post">
-        <label for="nombre">Nombre:</label><br>
-        <input type="text" id="nombre" name="nombre" required><br><br>
-
-        <label for="tipo">Tipo:</label><br>
-        <input type="text" id="tipo" name="tipo" required><br><br>
-
-        <label for="ubicacion">UbicaciÃ³n:</label><br>
-        <input type="text" id="ubicacion" name="ubicacion" required><br><br>
-
-        <label for="estado">Estado:</label><br>
-        <input type="text" id="estado" name="estado" required><br><br>
-
-        <input type="submit" value="Agregar MÃ¡quina">
-    </form>
-
-    <!-- Formulario para Modificar MÃ¡quina -->
-    <h2>Modificar MÃ¡quina</h2>
-    <form action="ModMaquinas.jsp" method="post">
-        <label for="idMaquinaModificar">ID MÃ¡quina:</label><br>
-        <input type="number" id="idMaquinaModificar" name="idMaquinaModificar" required><br><br>
-
-        <label for="nuevoNombre">Nuevo Nombre:</label><br>
-        <input type="text" id="nuevoNombre" name="nuevoNombre"><br><br>
-
-        <label for="nuevoTipo">Nuevo Tipo:</label><br>
-        <input type="text" id="nuevoTipo" name="nuevoTipo"><br><br>
-
-        <label for="nuevaUbicacion">Nueva UbicaciÃ³n:</label><br>
-        <input type="text" id="nuevaUbicacion" name="nuevaUbicacion"><br><br>
-
-        <label for="nuevoEstado">Nuevo Estado:</label><br>
-        <input type="text" id="nuevoEstado" name="nuevoEstado"><br><br>
-
-        <input type="submit" value="Modificar MÃ¡quina">
-    </form>
-
-    <!-- Formulario para Eliminar MÃ¡quina -->
-    <h2>Eliminar MÃ¡quina</h2>
-    <form action="ModMaquinas.jsp" method="post">
-        <label for="idMaquinaEliminar">ID MÃ¡quina:</label><br>
-        <input type="number" id="idMaquinaEliminar" name="idMaquinaEliminar" required><br><br>
-
-        <input type="submit" value="Eliminar MÃ¡quina">
-    </form>
-
-    <%
+    <% 
         OperacionBD operacionBD = new OperacionBD();
-        List<Maquina> listaMaquinas = new ArrayList<>();
+        String mensaje = "";
 
         try {
             if (operacionBD.conectar()) {
-                listaMaquinas = operacionBD.consultarMaquina();
+                String accion = request.getParameter("accion");
+
+                if ("agregar".equals(accion)) {
+                    // Agregar máquina
+                    Maquina nuevaMaquina = new Maquina();
+                    nuevaMaquina.setNombre(request.getParameter("nombre"));
+                    nuevaMaquina.setTipo(request.getParameter("tipo"));
+                    nuevaMaquina.setUbicacion(request.getParameter("ubicacion"));
+                    nuevaMaquina.setEstado(request.getParameter("estado"));
+
+                    boolean resultado = operacionBD.agregarMaquina(nuevaMaquina);
+                    mensaje = resultado ? "Máquina agregada con éxito." : "Error al agregar la máquina.";
+                } else if ("eliminar".equals(accion)) {
+                    // Eliminar máquina
+                    String idMaquina = request.getParameter("idMaquina");
+                    if (idMaquina != null && !idMaquina.isEmpty()) {
+                        boolean resultado = operacionBD.eliminarMaquina(idMaquina);
+                        mensaje = resultado ? "Máquina eliminada con éxito." : "Error al eliminar la máquina.";
+                    }
+                } else if ("actualizar".equals(accion)) {
+                    // Actualizar máquina
+                    Maquina maquinaActualizada = new Maquina();
+                    maquinaActualizada.setId_maquina(request.getParameter("idMaquinaActualizar"));
+                    maquinaActualizada.setNombre(request.getParameter("nuevoNombre"));
+                    maquinaActualizada.setTipo(request.getParameter("nuevoTipo"));
+                    maquinaActualizada.setUbicacion(request.getParameter("nuevaUbicacion"));
+                    maquinaActualizada.setEstado(request.getParameter("nuevoEstado"));
+
+                    boolean resultado = operacionBD.actualizarMaquina(maquinaActualizada);
+                    mensaje = resultado ? "Máquina actualizada con éxito." : "Error al actualizar la máquina.";
+                }
+
                 operacionBD.desconectar();
             } else {
-                out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
+                mensaje = "Error al conectar con la base de datos.";
             }
         } catch (Exception e) {
-            out.println("<p>Error: " + e.getMessage() + "</p>");
+            mensaje = "Error: " + e.getMessage();
         }
     %>
 
-    <% if (listaMaquinas == null || listaMaquinas.isEmpty()) { %>
-        <p>No hay datos disponibles.</p>
-    <% } else { %>
-        <h2>Lista de MÃ¡quinas</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID MÃ¡quina</th>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>UbicaciÃ³n</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (Maquina maquina : listaMaquinas) { %>
-                    <tr>
-                        <td><%= maquina.getId_maquina() %></td>
-                        <td><%= maquina.getNombre() %></td>
-                        <td><%= maquina.getTipo() %></td>
-                        <td><%= maquina.getUbicacion() %></td>
-                        <td><%= maquina.getEstado() %></td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
+    <% if (!mensaje.isEmpty()) { %>
+        <p><%= mensaje %></p>
     <% } %>
+
+    <!-- Formulario para Agregar Máquina -->
+    <h2>Agregar Nueva Máquina</h2>
+    <form action="ModMaquinas.jsp" method="post">
+        <input type="hidden" name="accion" value="agregar">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo" required><br><br>
+
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" required><br><br>
+
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado" required><br><br>
+
+        <input type="submit" value="Agregar Máquina">
+    </form>
+
+    <!-- Formulario para Eliminar Máquina -->
+    <h2>Eliminar Máquina</h2>
+    <form action="ModMaquinas.jsp" method="post">
+        <input type="hidden" name="accion" value="eliminar">
+        <label for="idMaquina">ID de la Máquina:</label>
+        <input type="number" id="idMaquina" name="idMaquina" required><br><br>
+        <input type="submit" value="Eliminar Máquina">
+    </form>
+
+    <!-- Formulario para Actualizar Máquina -->
+    <h2>Actualizar Máquina</h2>
+    <form action="ModMaquinas.jsp" method="post">
+        <input type="hidden" name="accion" value="actualizar">
+        <label for="idMaquinaActualizar">ID de la Máquina:</label>
+        <input type="number" id="idMaquinaActualizar" name="idMaquinaActualizar" required><br><br>
+
+        <label for="nuevoNombre">Nuevo Nombre:</label>
+        <input type="text" id="nuevoNombre" name="nuevoNombre"><br><br>
+
+        <label for="nuevoTipo">Nuevo Tipo:</label>
+        <input type="text" id="nuevoTipo" name="nuevoTipo"><br><br>
+
+        <label for="nuevaUbicacion">Nueva Ubicación:</label>
+        <input type="text" id="nuevaUbicacion" name="nuevaUbicacion"><br><br>
+
+        <label for="nuevoEstado">Nuevo Estado:</label>
+        <input type="text" id="nuevoEstado" name="nuevoEstado"><br><br>
+
+        <input type="submit" value="Actualizar Máquina">
+    </form>
+
+    <!-- Tabla para Mostrar Máquinas -->
+    <h2>Lista de Máquinas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Ubicación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% 
+                try {
+                    if (operacionBD.conectar()) {
+                        List<Maquina> listaMaquinas = operacionBD.consultarMaquina();
+                        operacionBD.desconectar();
+
+                        if (listaMaquinas != null && !listaMaquinas.isEmpty()) {
+                            for (Maquina maquina : listaMaquinas) { %>
+                                <tr>
+                                    <td><%= maquina.getId_maquina() %></td>
+                                    <td><%= maquina.getNombre() %></td>
+                                    <td><%= maquina.getTipo() %></td>
+                                    <td><%= maquina.getUbicacion() %></td>
+                                    <td><%= maquina.getEstado() %></td>
+                                </tr>
+            <%              }
+                        } else { %>
+                            <tr>
+                                <td colspan="5">No hay máquinas registradas.</td>
+                            </tr>
+            <%          }
+                    }
+                } catch (Exception e) { %>
+                    <tr>
+                        <td colspan="5">Error: <%= e.getMessage() %></td>
+                    </tr>
+            <%  } %>
+        </tbody>
+    </table>
 </body>
 </html>
