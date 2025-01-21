@@ -75,17 +75,30 @@ public class OperacionBD {
     }
 
     public boolean agregarSocio(Socio socio) {
-        String query = "INSERT INTO Socios (nombre, fecha_nacimiento, telefono, email, fecha_inscripcion, membresia, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setString(1, socio.getNombre());
-            ps.setDate(2, java.sql.Date.valueOf(socio.getFechaNacimiento()));
-            ps.setString(3, socio.getTelefono());
-            ps.setString(4, socio.getEmail());
-            ps.setDate(5, java.sql.Date.valueOf(socio.getFechaInscripcion()));
-            ps.setString(6, socio.getMembresia());
-            ps.setString(7, socio.getEstado());
-            ps.executeUpdate();
-            return true;
+        String getMaxIdQuery = "SELECT COALESCE(MAX(id_socio), 0) + 1 AS next_id FROM Socios";
+        String insertQuery = "INSERT INTO Socios (id_socio, nombre, fecha_nacimiento, telefono, email, fecha_inscripcion, membresia, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+
+            if (rs.next()) {
+                int nextId = rs.getInt("next_id"); // Calcular el siguiente ID
+                socio.setIdSocio(String.valueOf(nextId));
+
+                // Insertar el socio con el nuevo ID calculado
+                try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+                    ps.setInt(1, nextId); // ID calculado
+                    ps.setString(2, socio.getNombre());
+                    ps.setDate(3, java.sql.Date.valueOf(socio.getFechaNacimiento()));
+                    ps.setString(4, socio.getTelefono());
+                    ps.setString(5, socio.getEmail());
+                    ps.setDate(6, java.sql.Date.valueOf(socio.getFechaInscripcion()));
+                    ps.setString(7, socio.getMembresia());
+                    ps.setString(8, socio.getEstado());
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
@@ -112,10 +125,23 @@ public class OperacionBD {
     }
 
     public boolean eliminarSocio(String idSocio) {
-        String query = "DELETE FROM Socios WHERE id_socio = ?";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+        String deleteQuery = "DELETE FROM Socios WHERE id_socio = ?";
+        String resetAutoIncrementQuery = "ALTER TABLE Socios AUTO_INCREMENT = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
             ps.setInt(1, Integer.parseInt(idSocio));
             ps.executeUpdate();
+
+            // Obtener el último ID
+            try (Statement st = conexion.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT MAX(id_socio) AS max_id FROM Socios")) {
+                if (rs.next()) {
+                    int maxId = rs.getInt("max_id");
+                    try (PreparedStatement resetPs = conexion.prepareStatement(resetAutoIncrementQuery)) {
+                        resetPs.setInt(1, maxId + 1);
+                        resetPs.executeUpdate();
+                    }
+                }
+            }
             return true;
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -145,15 +171,28 @@ public class OperacionBD {
     }
 
     public boolean agregarEntrenador(Entrenador entrenador) {
-        String query = "INSERT INTO Entrenadores (nombre, especialidad, telefono, horario, estado) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setString(1, entrenador.getNombre());
-            ps.setString(2, entrenador.getEspecialidad());
-            ps.setString(3, entrenador.getTelefono());
-            ps.setString(4, entrenador.getHorario());
-            ps.setString(5, entrenador.getEstado());
-            ps.executeUpdate();
-            return true;
+        String getMaxIdQuery = "SELECT COALESCE(MAX(id_entrenador), 0) + 1 AS next_id FROM Entrenadores";
+        String insertQuery = "INSERT INTO Entrenadores (id_entrenador, nombre, especialidad, telefono, horario, estado) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+
+            if (rs.next()) {
+                int nextId = rs.getInt("next_id"); // Calcular el siguiente ID
+                entrenador.setIdEntrenador(String.valueOf(nextId));
+
+                // Insertar el entrenador con el nuevo ID calculado
+                try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+                    ps.setInt(1, nextId); // ID calculado
+                    ps.setString(2, entrenador.getNombre());
+                    ps.setString(3, entrenador.getEspecialidad());
+                    ps.setString(4, entrenador.getTelefono());
+                    ps.setString(5, entrenador.getHorario());
+                    ps.setString(6, entrenador.getEstado());
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
@@ -178,10 +217,23 @@ public class OperacionBD {
     }
 
     public boolean eliminarEntrenador(String idEntrenador) {
-        String query = "DELETE FROM Entrenadores WHERE id_entrenador = ?";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+        String deleteQuery = "DELETE FROM Entrenadores WHERE id_entrenador = ?";
+        String resetAutoIncrementQuery = "ALTER TABLE Entrenadores AUTO_INCREMENT = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
             ps.setInt(1, Integer.parseInt(idEntrenador));
             ps.executeUpdate();
+
+            // Obtener el último ID
+            try (Statement st = conexion.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT MAX(id_entrenador) AS max_id FROM Entrenadores")) {
+                if (rs.next()) {
+                    int maxId = rs.getInt("max_id");
+                    try (PreparedStatement resetPs = conexion.prepareStatement(resetAutoIncrementQuery)) {
+                        resetPs.setInt(1, maxId + 1);
+                        resetPs.executeUpdate();
+                    }
+                }
+            }
             return true;
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
@@ -210,14 +262,27 @@ public class OperacionBD {
     }
 
     public boolean agregarMaquina(Maquina maquina) {
-        String query = "INSERT INTO Maquinas (nombre, tipo, ubicacion, estado) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setString(1, maquina.getNombre());
-            ps.setString(2, maquina.getTipo());
-            ps.setString(3, maquina.getUbicacion());
-            ps.setString(4, maquina.getEstado());
-            ps.executeUpdate();
-            return true;
+        String getMaxIdQuery = "SELECT COALESCE(MAX(id_maquina), 0) + 1 AS next_id FROM Maquinas";
+        String insertQuery = "INSERT INTO Maquinas (id_maquina, nombre, tipo, ubicacion, estado) VALUES (?, ?, ?, ?, ?)";
+
+        try (Statement st = conexion.createStatement();
+                ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+
+            if (rs.next()) {
+                int nextId = rs.getInt("next_id"); // Calcular el siguiente ID
+                maquina.setId_maquina(String.valueOf(nextId));
+
+                // Insertar la máquina con el nuevo ID calculado
+                try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+                    ps.setInt(1, nextId); // ID calculado
+                    ps.setString(2, maquina.getNombre());
+                    ps.setString(3, maquina.getTipo());
+                    ps.setString(4, maquina.getUbicacion());
+                    ps.setString(5, maquina.getEstado());
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
@@ -241,14 +306,28 @@ public class OperacionBD {
     }
 
     public boolean eliminarMaquina(String idMaquina) {
-        String query = "DELETE FROM Maquinas WHERE id_maquina = ?";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+        String deleteQuery = "DELETE FROM Maquinas WHERE id_maquina = ?";
+        String resetAutoIncrementQuery = "ALTER TABLE Maquinas AUTO_INCREMENT = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
             ps.setInt(1, Integer.parseInt(idMaquina));
             ps.executeUpdate();
+
+            // Obtener el último ID
+            try (Statement st = conexion.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT MAX(id_maquina) AS max_id FROM Maquinas")) {
+                if (rs.next()) {
+                    int maxId = rs.getInt("max_id");
+                    try (PreparedStatement resetPs = conexion.prepareStatement(resetAutoIncrementQuery)) {
+                        resetPs.setInt(1, maxId + 1);
+                        resetPs.executeUpdate();
+                    }
+                }
+            }
             return true;
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
         return false;
     }
+
 }
