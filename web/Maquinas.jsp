@@ -21,6 +21,7 @@
                 <li><a href="Maquinas/EliminarMaquina.jsp">Eliminar Maquina</a></li>
                 <li><a href="Maquinas/MoverMaquina.jsp">Mover Maquina</a></li>
                 <li><a href="Maquinas/RepMaquina.jsp">Reparar Maquina</a></li>
+                <li><a href="Maquinas/ConsultarMaquinas.jsp">Consultar Maquinas</a></li>
             </ul>
         </nav>
 
