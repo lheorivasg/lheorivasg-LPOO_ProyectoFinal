@@ -5,6 +5,9 @@
  */
 package modelo;
 
+import java.time.LocalDateTime;
+import java.time.Duration;
+
 /**
  *
  * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
@@ -16,7 +19,10 @@ public class Entrenador {
     private String telefono;
     private String horario;
     private String estado;
+    private LocalDateTime horaEntrada;
+    private LocalDateTime horaSalida;
 
+    // Constructor completo
     public Entrenador(String idEntrenador, String nombre, String especialidad, String telefono, String horario, String estado) {
         this.idEntrenador = idEntrenador;
         this.nombre = nombre;
@@ -26,15 +32,39 @@ public class Entrenador {
         this.estado = estado;
     }
 
+    // Constructor vacío
     public Entrenador() {
     }
 
+    // Registrar entrada
+    public void registrarEntrada(LocalDateTime entrada) {
+        this.horaEntrada = entrada;
+        System.out.println("Entrada registrada: " + horaEntrada);
+    }
+
+    // Registrar salida
+    public void registrarSalida(LocalDateTime salida) {
+        this.horaSalida = salida;
+        System.out.println("Salida registrada: " + horaSalida);
+    }
+
+    // Calcular horas trabajadas
+    public String calcularHorasTrabajadas() {
+        if (horaEntrada != null && horaSalida != null) {
+            Duration duracion = Duration.between(horaEntrada, horaSalida);
+            long horas = duracion.toHours();
+            long minutos = duracion.toMinutes() % 60;
+            return horas + " horas y " + minutos + " minutos.";
+        } else {
+            return "No se han registrado horas de entrada y salida.";
+        }
+    }
     
     
     
-    
-    
-    
+    //Reescribir actualizar metodo de actualizar para que modifique disponibilidad y horario
+
+    // Getters y setters
     public String getIdEntrenador() {
         return idEntrenador;
     }
@@ -82,8 +112,35 @@ public class Entrenador {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
-    
-    
+
+    public LocalDateTime getHoraEntrada() {
+        return horaEntrada;
+    }
+
+    public void setHoraEntrada(LocalDateTime horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+
+    public LocalDateTime getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(LocalDateTime horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
+    @Override
+    public String toString() {
+        return "Entrenador{" +
+                "idEntrenador='" + idEntrenador + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", especialidad='" + especialidad + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", horario='" + horario + '\'' +
+                ", estado='" + estado + '\'' +
+                ", horaEntrada=" + horaEntrada +
+                ", horaSalida=" + horaSalida +
+                '}';
+    }
 }
+
