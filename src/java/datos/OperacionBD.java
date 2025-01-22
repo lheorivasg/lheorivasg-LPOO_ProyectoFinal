@@ -25,8 +25,14 @@ public class OperacionBD {
 
     private static final String USUARIO = "root";
     private static final String PSWD = "root";
+
+    public static Connection getConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private Connection conexion;
 
+    
+    
     public boolean conectar() {
         boolean estado = false;
         try {

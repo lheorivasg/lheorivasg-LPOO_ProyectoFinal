@@ -5,6 +5,11 @@
  */
 package modelo;
 
+import datos.OperacionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;;
 import java.time.LocalDateTime;
 import java.time.Duration;
 
@@ -37,29 +42,89 @@ public class Entrenador {
     }
 
     // Registrar entrada
-    public void registrarEntrada(LocalDateTime entrada) {
-        this.horaEntrada = entrada;
-        System.out.println("Entrada registrada: " + horaEntrada);
+    public boolean registrarEntrada(int idEntrenador) {
+        String query = "UPDATE Entrenadores SET hora_entrada = NOW() WHERE id_entrenador = ?";
+        try (Connection con = OperacionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idEntrenador);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // Registrar salida
-    public void registrarSalida(LocalDateTime salida) {
-        this.horaSalida = salida;
-        System.out.println("Salida registrada: " + horaSalida);
+    public boolean registrarSalida(int idEntrenador) {
+        String query = "UPDATE Entrenadores SET hora_salida = NOW() WHERE id_entrenador = ?";
+        try (Connection con = OperacionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idEntrenador);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // Calcular horas trabajadas
-    public String calcularHorasTrabajadas() {
-        if (horaEntrada != null && horaSalida != null) {
-            Duration duracion = Duration.between(horaEntrada, horaSalida);
-            long horas = duracion.toHours();
-            long minutos = duracion.toMinutes() % 60;
-            return horas + " horas y " + minutos + " minutos.";
-        } else {
-            return "No se han registrado horas de entrada y salida.";
+    public int calcularHorasTrabajadas(int idEntrenador) {
+        String query = "SELECT TIMESTAMPDIFF(HOUR, hora_entrada, hora_salida) AS horas FROM Entrenadores WHERE id_entrenador = ?";
+        try (Connection con = OperacionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setInt(1, idEntrenador);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("horas");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return -1; // En caso de error
     }
     
+    
+    public boolean modificarDisponibilidad(int idEntrenador, String nuevoEstado) {
+        String query = "UPDATE Entrenadores SET estado = ? WHERE id_entrenador = ?";
+        try (Connection con = OperacionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, nuevoEstado);
+            stmt.setInt(2, idEntrenador);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }    
+    
+    
+    public boolean modificarHorario(int idEntrenador, String nuevoHorario) {
+        String query = "UPDATE Entrenadores SET horario = ? WHERE id_entrenador = ?";
+        try (Connection con = OperacionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
+
+            stmt.setString(1, nuevoHorario);
+            stmt.setInt(2, idEntrenador);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }    
     
     
     //Reescribir actualizar metodo de actualizar para que modifique disponibilidad y horario
