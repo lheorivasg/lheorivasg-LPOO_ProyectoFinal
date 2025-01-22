@@ -47,7 +47,8 @@
                     nuevoSocio.setTelefono(request.getParameter("telefono"));
                     nuevoSocio.setEmail(request.getParameter("email"));
                     nuevoSocio.setFechaInscripcion(java.time.LocalDate.parse(request.getParameter("fechaInscripcion")));
-                    nuevoSocio.setMembresia(request.getParameter("membresia"));
+                    nuevoSocio.setTipoMembresia(request.getParameter("membresia"));
+                    nuevoSocio.setDuracion(request.getParameter("duracion"));
                     nuevoSocio.setEstado(request.getParameter("estado"));
 
                     boolean resultado = operacionBD.agregarSocio(nuevoSocio);
@@ -68,7 +69,8 @@
                     socioActualizado.setEmail(request.getParameter("nuevoEmail"));
                     socioActualizado.setFechaInscripcion(request.getParameter("nuevaFechaInscripcion") != null
                         ? java.time.LocalDate.parse(request.getParameter("nuevaFechaInscripcion")) : null);
-                    socioActualizado.setMembresia(request.getParameter("nuevaMembresia"));
+                    socioActualizado.setTipoMembresia(request.getParameter("nuevaMembresia"));
+                    socioActualizado.setDuracion(request.getParameter("nuevaDuracion"));
                     socioActualizado.setEstado(request.getParameter("nuevoEstado"));
 
                     boolean resultado = operacionBD.actualizarSocio(socioActualizado);
@@ -110,6 +112,9 @@
         <label for="membresia">Membresía:</label>
         <input type="text" id="membresia" name="membresia" required><br><br>
 
+        <label for="duracion">Duración:</label>
+        <input type="text" id="duracion" name="duracion" required><br><br>
+
         <label for="estado">Estado:</label>
         <input type="text" id="estado" name="estado" required><br><br>
 
@@ -150,6 +155,9 @@
         <label for="nuevaMembresia">Nueva Membresía:</label>
         <input type="text" id="nuevaMembresia" name="nuevaMembresia"><br><br>
 
+        <label for="nuevaDuracion">Nueva Duración:</label>
+        <input type="text" id="nuevaDuracion" name="nuevaDuracion"><br><br>
+
         <label for="nuevoEstado">Nuevo Estado:</label>
         <input type="text" id="nuevoEstado" name="nuevoEstado"><br><br>
 
@@ -168,6 +176,7 @@
                 <th>Email</th>
                 <th>Fecha de Inscripción</th>
                 <th>Membresía</th>
+                <th>Duración</th>
                 <th>Estado</th>
             </tr>
         </thead>
@@ -187,22 +196,24 @@
                                     <td><%= socio.getTelefono() %></td>
                                     <td><%= socio.getEmail() %></td>
                                     <td><%= socio.getFechaInscripcion() %></td>
-                                    <td><%= socio.getMembresia() %></td>
+                                    <td><%= socio.getTipoMembresia() %></td>
+                                    <td><%= socio.getDuracion() %></td>
                                     <td><%= socio.getEstado() %></td>
                                 </tr>
             <%              }
                         } else { %>
                             <tr>
-                                <td colspan="8">No hay socios registrados.</td>
+                                <td colspan="9">No hay socios registrados.</td>
                             </tr>
             <%          }
                     }
                 } catch (Exception e) { %>
                     <tr>
-                        <td colspan="8">Error: <%= e.getMessage() %></td>
+                        <td colspan="9">Error: <%= e.getMessage() %></td>
                     </tr>
             <%  } %>
         </tbody>
     </table>
 </body>
 </html>
+

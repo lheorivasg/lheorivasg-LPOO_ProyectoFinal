@@ -6,51 +6,50 @@
 package modelo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
+ * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas
+ * Gutierrez
  */
 public class Socio {
+
     private String idSocio;
     private String nombre;
-    private LocalDate fechaNacimiento ;
+    private LocalDate fechaNacimiento;
     private String telefono;
     private String email;
     private LocalDate fechaInscripcion;
-    private String membresia;
+    private String tipoMembresia;
     private String estado;
+    private String duracion;
 
-    public Socio(String idSocio, String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String membresia, String estado) {
+    private List<String> asistencia;
+
+    public Socio() {
+    }
+
+    public Socio(List<String> asistencia) {
+        this.asistencia = asistencia;
+    }
+
+    public Socio(String idSocio, String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String tipoMembresia, String estado, String duracion) {
         this.idSocio = idSocio;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.email = email;
         this.fechaInscripcion = fechaInscripcion;
-        this.membresia = membresia;
+        this.tipoMembresia = tipoMembresia;
         this.estado = estado;
+        this.duracion = duracion;
+        this.asistencia = new ArrayList<>();
     }
 
-    public Socio() {
-    }
-
-    public Socio(String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String membresia, String estado) {
-        this.nombre = nombre;
-        this.fechaNacimiento = fechaNacimiento;
-        this.telefono = telefono;
-        this.email = email;
-        this.fechaInscripcion = fechaInscripcion;
-        this.membresia = membresia;
-        this.estado = estado;
-    }
-
-    
-    
-    
-    
-    
-    
     public String getIdSocio() {
         return idSocio;
     }
@@ -99,12 +98,12 @@ public class Socio {
         this.fechaInscripcion = fechaInscripcion;
     }
 
-    public String getMembresia() {
-        return membresia;
+    public String getTipoMembresia() {
+        return tipoMembresia;
     }
 
-    public void setMembresia(String membresia) {
-        this.membresia = membresia;
+    public void setTipoMembresia(String tipoMembresia) {
+        this.tipoMembresia = tipoMembresia;
     }
 
     public String getEstado() {
@@ -114,9 +113,35 @@ public class Socio {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public String getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(String duracion) {
+        this.duracion = duracion;
+    }
+
+    public List<String> getAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(List<String> asistencia) {
+        this.asistencia = asistencia;
+    }
     
-    
-    
-    
-    
+    public int getNumeroDeAsistencias(){
+        return asistencia.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Socio" + "idSocio" + idSocio + "nombre" + nombre + "fechaNacimiento=" + fechaNacimiento + "telefono=" + telefono + "email=" + email + "fechaInscripcion=" + fechaInscripcion + "tipoMembresia=" + tipoMembresia + "estado=" + estado + "duracion=" + duracion;
+    }
+
+    public void registrarAsistencia(String actividad) {
+        String registro = "Actividad" + actividad + "-Fecha: " + LocalDate.now().toString();
+        this.asistencia.add(registro);
+    }
+
 }

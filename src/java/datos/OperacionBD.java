@@ -71,7 +71,7 @@ public class OperacionBD {
                 socio.setTelefono(rs.getString("telefono"));
                 socio.setEmail(rs.getString("email"));
                 socio.setFechaInscripcion(rs.getDate("fecha_inscripcion").toLocalDate());
-                socio.setMembresia(rs.getString("membresia"));
+                socio.setTipoMembresia(rs.getString("membresia"));
                 socio.setEstado(rs.getString("estado"));
                 socios.add(socio);
             }
@@ -100,7 +100,7 @@ public class OperacionBD {
                     ps.setString(4, socio.getTelefono());
                     ps.setString(5, socio.getEmail());
                     ps.setDate(6, java.sql.Date.valueOf(socio.getFechaInscripcion()));
-                    ps.setString(7, socio.getMembresia());
+                    ps.setString(7, socio.getTipoMembresia());
                     ps.setString(8, socio.getEstado());
                     ps.executeUpdate();
                     return true;
@@ -120,7 +120,7 @@ public class OperacionBD {
             ps.setString(3, socio.getTelefono());
             ps.setString(4, socio.getEmail());
             ps.setDate(5, java.sql.Date.valueOf(socio.getFechaInscripcion()));
-            ps.setString(6, socio.getMembresia());
+            ps.setString(6, socio.getTipoMembresia());
             ps.setString(7, socio.getEstado());
             ps.setInt(8, Integer.parseInt(socio.getIdSocio()));
             ps.executeUpdate();
