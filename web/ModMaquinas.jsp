@@ -3,7 +3,6 @@
     Created on : Jan 18, 2025, 3:12:12 PM
     Author     : Kirig
 --%>
-
 <%@page import="java.util.List"%>
 <%@page import="modelo.Maquina"%>
 <%@page import="datos.OperacionBD"%>
@@ -35,6 +34,7 @@
 
     <% 
         OperacionBD operacionBD = new OperacionBD();
+        Maquina maquina = new Maquina();
         String mensaje = "";
 
         try {
@@ -43,31 +43,29 @@
 
                 if ("agregar".equals(accion)) {
                     // Agregar máquina
-                    Maquina nuevaMaquina = new Maquina();
-                    nuevaMaquina.setNombre(request.getParameter("nombre"));
-                    nuevaMaquina.setTipo(request.getParameter("tipo"));
-                    nuevaMaquina.setUbicacion(request.getParameter("ubicacion"));
-                    nuevaMaquina.setEstado(request.getParameter("estado"));
+                    maquina.setNombre(request.getParameter("nombre"));
+                    maquina.setTipo(request.getParameter("tipo"));
+                    maquina.setUbicacion(request.getParameter("ubicacion"));
+                    maquina.setEstado(request.getParameter("estado"));
 
-                    boolean resultado = operacionBD.agregarMaquina(nuevaMaquina);
+                    boolean resultado = maquina.agregarMaquina(maquina);
                     mensaje = resultado ? "Máquina agregada con éxito." : "Error al agregar la máquina.";
                 } else if ("eliminar".equals(accion)) {
                     // Eliminar máquina
                     String idMaquina = request.getParameter("idMaquina");
                     if (idMaquina != null && !idMaquina.isEmpty()) {
-                        boolean resultado = operacionBD.eliminarMaquina(idMaquina);
+                        boolean resultado = maquina.eliminarMaquina(idMaquina);
                         mensaje = resultado ? "Máquina eliminada con éxito." : "Error al eliminar la máquina.";
                     }
                 } else if ("actualizar".equals(accion)) {
                     // Actualizar máquina
-                    Maquina maquinaActualizada = new Maquina();
-                    maquinaActualizada.setId_maquina(request.getParameter("idMaquinaActualizar"));
-                    maquinaActualizada.setNombre(request.getParameter("nuevoNombre"));
-                    maquinaActualizada.setTipo(request.getParameter("nuevoTipo"));
-                    maquinaActualizada.setUbicacion(request.getParameter("nuevaUbicacion"));
-                    maquinaActualizada.setEstado(request.getParameter("nuevoEstado"));
+                    maquina.setId_maquina(request.getParameter("idMaquinaActualizar"));
+                    maquina.setNombre(request.getParameter("nuevoNombre"));
+                    maquina.setTipo(request.getParameter("nuevoTipo"));
+                    maquina.setUbicacion(request.getParameter("nuevaUbicacion"));
+                    maquina.setEstado(request.getParameter("nuevoEstado"));
 
-                    boolean resultado = operacionBD.actualizarMaquina(maquinaActualizada);
+                    boolean resultado = maquina.actualizarMaquina(maquina);
                     mensaje = resultado ? "Máquina actualizada con éxito." : "Error al actualizar la máquina.";
                 }
 
@@ -150,17 +148,17 @@
             <% 
                 try {
                     if (operacionBD.conectar()) {
-                        List<Maquina> listaMaquinas = operacionBD.consultarMaquina();
+                        List<Maquina> listaMaquinas = maquina.consultarMaquina();
                         operacionBD.desconectar();
 
                         if (listaMaquinas != null && !listaMaquinas.isEmpty()) {
-                            for (Maquina maquina : listaMaquinas) { %>
+                            for (Maquina m : listaMaquinas) { %>
                                 <tr>
-                                    <td><%= maquina.getId_maquina() %></td>
-                                    <td><%= maquina.getNombre() %></td>
-                                    <td><%= maquina.getTipo() %></td>
-                                    <td><%= maquina.getUbicacion() %></td>
-                                    <td><%= maquina.getEstado() %></td>
+                                    <td><%= m.getId_maquina() %></td>
+                                    <td><%= m.getNombre() %></td>
+                                    <td><%= m.getTipo() %></td>
+                                    <td><%= m.getUbicacion() %></td>
+                                    <td><%= m.getEstado() %></td>
                                 </tr>
             <%              }
                         } else { %>
@@ -178,3 +176,4 @@
     </table>
 </body>
 </html>
+
