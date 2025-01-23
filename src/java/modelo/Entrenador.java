@@ -15,10 +15,16 @@ import java.time.Duration;
 
 /**
  *
- * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
+ * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas
+ * Gutierrez
  */
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 public class Entrenador {
-    private int idEntrenador;  // Cambié de String a int
+
+    private int idEntrenador;
     private String nombre;
     private String especialidad;
     private String telefono;
@@ -37,6 +43,38 @@ public class Entrenador {
         this.estado = estado;
     }
 
+    public Entrenador(int idEntrenador, String nombre, String especialidad, String telefono, String horario, String estado, LocalDateTime horaEntrada, LocalDateTime horaSalida) {
+        this.idEntrenador = idEntrenador;
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.telefono = telefono;
+        this.horario = horario;
+        this.estado = estado;
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
+    }
+
+    public Entrenador(String nombre, String especialidad, String telefono, String horario, String estado, LocalDateTime horaEntrada, LocalDateTime horaSalida) {
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.telefono = telefono;
+        this.horario = horario;
+        this.estado = estado;
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
+    }
+
+    public Entrenador(int idEntrenador, String nombre, String especialidad, String telefono, String horario) {
+        this.idEntrenador = idEntrenador;
+        this.nombre = nombre;
+        this.especialidad = especialidad;
+        this.telefono = telefono;
+        this.horario = horario;
+    }
+    
+    
+    
+
     // Constructor vacío
     public Entrenador() {
     }
@@ -47,7 +85,7 @@ public class Entrenador {
         try (Connection con = OperacionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, idEntrenador);
+            stmt.setInt(1, idEntrenador);  // Usamos setInt para el idEntrenador como int
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -63,7 +101,7 @@ public class Entrenador {
         try (Connection con = OperacionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, idEntrenador);
+            stmt.setInt(1, idEntrenador);  // Usamos setInt para el idEntrenador como int
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -79,7 +117,7 @@ public class Entrenador {
         try (Connection con = OperacionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
-            stmt.setInt(1, idEntrenador);
+            stmt.setInt(1, idEntrenador);  // Usamos setInt para el idEntrenador como int
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -91,15 +129,15 @@ public class Entrenador {
         }
         return -1; // En caso de error
     }
-    
-    
+
+    // Modificar disponibilidad
     public boolean modificarDisponibilidad(int idEntrenador, String nuevoEstado) {
         String query = "UPDATE Entrenadores SET estado = ? WHERE id_entrenador = ?";
         try (Connection con = OperacionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, nuevoEstado);
-            stmt.setInt(2, idEntrenador);
+            stmt.setInt(2, idEntrenador);  // Usamos setInt para el idEntrenador como int
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -107,15 +145,16 @@ public class Entrenador {
             e.printStackTrace();
             return false;
         }
-    }    
-    
+    }
+
+    // Modificar horario
     public boolean modificarHorario(int idEntrenador, String nuevoHorario) {
         String query = "UPDATE Entrenadores SET horario = ? WHERE id_entrenador = ?";
         try (Connection con = OperacionBD.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
 
             stmt.setString(1, nuevoHorario);
-            stmt.setInt(2, idEntrenador);
+            stmt.setInt(2, idEntrenador);  // Usamos setInt para el idEntrenador como int
 
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
@@ -123,7 +162,7 @@ public class Entrenador {
             e.printStackTrace();
             return false;
         }
-    }    
+    }
 
     // Getters y setters
     public int getIdEntrenador() {
@@ -190,10 +229,109 @@ public class Entrenador {
         this.horaSalida = horaSalida;
     }
 
+public ArrayList<Entrenador> consultarEntrenador() {
+    ArrayList<Entrenador> entrenadores = new ArrayList<>();
+    String query = "SELECT * FROM Entrenadores";
+    try (Connection conexion = OperacionBD.getConnection();
+         Statement st = conexion.createStatement();
+         ResultSet rs = st.executeQuery(query)) {
+        while (rs.next()) {
+            Entrenador entrenador = new Entrenador();
+            entrenador.setIdEntrenador(rs.getInt("id_entrenador"));
+            entrenador.setNombre(rs.getString("nombre"));
+            entrenador.setEspecialidad(rs.getString("especialidad"));
+            entrenador.setTelefono(rs.getString("telefono"));
+            entrenador.setHorario(rs.getString("horario"));
+            entrenador.setEstado(rs.getString("estado"));
+            entrenadores.add(entrenador);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    return entrenadores;
+}
+
+public boolean agregarEntrenador() {
+    String getMaxIdQuery = "SELECT COALESCE(MAX(CAST(id_entrenador AS UNSIGNED)), 0) + 1 AS next_id FROM Entrenadores";
+    String insertQuery = "INSERT INTO Entrenadores (id_entrenador, nombre, especialidad, telefono, horario, estado) VALUES (?, ?, ?, ?, ?, ?)";
+
+    try (Connection conexion = OperacionBD.getConnection();
+         Statement st = conexion.createStatement();
+         ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+
+        if (rs.next()) {
+            int nextId = rs.getInt("next_id");
+            this.setIdEntrenador(nextId);
+
+            try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+                ps.setInt(1, this.getIdEntrenador());
+                ps.setString(2, this.getNombre());
+                ps.setString(3, this.getEspecialidad());
+                ps.setString(4, this.getTelefono());
+                ps.setString(5, this.getHorario());
+                ps.setString(6, this.getEstado());
+                ps.executeUpdate();
+                return true;
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    return false;
+}
+
+public boolean actualizarEntrenador() {
+    String query = "UPDATE Entrenadores SET nombre = ?, especialidad = ?, telefono = ?, horario = ?, estado = ? WHERE id_entrenador = ?";
+    try (Connection conexion = OperacionBD.getConnection();
+         PreparedStatement ps = conexion.prepareStatement(query)) {
+        ps.setString(1, this.getNombre());
+        ps.setString(2, this.getEspecialidad());
+        ps.setString(3, this.getTelefono());
+        ps.setString(4, this.getHorario());
+        ps.setString(5, this.getEstado());
+        ps.setInt(6, this.getIdEntrenador());
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    return false;
+}
+
+public boolean eliminarEntrenador(int idEntrenador) {
+    String deleteQuery = "DELETE FROM Entrenadores WHERE id_entrenador = ?";
+    String resetAutoIncrementQuery = "ALTER TABLE Entrenadores AUTO_INCREMENT = ?";
+    try (Connection conexion = OperacionBD.getConnection();
+         PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
+        ps.setInt(1, idEntrenador);
+        ps.executeUpdate();
+
+        try (Statement st = conexion.createStatement();
+             ResultSet rs = st.executeQuery("SELECT MAX(CAST(id_entrenador AS UNSIGNED)) AS max_id FROM Entrenadores")) {
+            if (rs.next()) {
+                int maxId = rs.getInt("max_id");
+                try (PreparedStatement resetPs = conexion.prepareStatement(resetAutoIncrementQuery)) {
+                    resetPs.setInt(1, maxId + 1);
+                    resetPs.executeUpdate();
+                }
+            }
+        }
+        return true;
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    return false;
+}
+
+
+
+    
+    
+    
     @Override
     public String toString() {
         return "Entrenador{" +
-                "idEntrenador=" + idEntrenador + // Cambié el tipo a int
+                "idEntrenador=" + idEntrenador +
                 ", nombre='" + nombre + '\'' +
                 ", especialidad='" + especialidad + '\'' +
                 ", telefono='" + telefono + '\'' +
@@ -204,3 +342,4 @@ public class Entrenador {
                 '}';
     }
 }
+

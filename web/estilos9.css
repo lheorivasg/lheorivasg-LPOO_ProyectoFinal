@@ -1,0 +1,121 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 05:35:54 AM
+    Author     : z23hu
+*/
+/*
+    Created on: 23/01/2025
+    Author: z23hu
+*/
+
+/* Estilo general para el body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #78B3CE; /* Fondo azul claro */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+}
+
+/* Centrar el título */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los formularios */
+form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-top: 20px;
+}
+
+/* Estilo para las etiquetas y campos de entrada */
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón de envío */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para los mensajes de confirmación o error */
+p {
+    color: #d9534f;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Estilos para la tabla de máquinas */
+table {
+    width: 80%; /* Ajusta el tamaño de la tabla */
+    border-collapse: collapse;
+    margin-top: 30px;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo para los encabezados de las secciones */
+h2 {
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Ajustar el formulario para eliminar máquinas */
+form[action="ModMaquinas.jsp"] {
+    margin-top: 20px;
+}
+

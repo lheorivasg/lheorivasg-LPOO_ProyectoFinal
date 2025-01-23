@@ -1,33 +1,82 @@
 <%-- 
-    Document   : Maquina
-    Created on : Jan 22, 2025, 1:31:56 PM
-    Author     : Kirig
+    Document   : Maquinas
+    Created on : 18/01/2025, 03:06:14 PM
+    Author     : max-1
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelo.Maquina"%>
+<%@ page import="java.util.List" %>
+<%@ page import="datos.OperacionBD" %>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Gym</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Administración de Máquinas</title>
+        <link href="estilos9.css" rel="stylesheet"> <!-- Enlace al archivo de estilos externo -->        
+        
+        <style>
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: center;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            form {
+                margin-bottom: 20px;
+            }
+        </style>
     </head>
     <body>
-        <h1>Bienvenidos al Gimnasio</h1>
-        <nav>
-            <ul>
-                <li><a href="Maquinas/ActualizarMaquina.jsp">Actualizar Maquina</a></li>
-                <li><a href="Maquinas/AgregarMaquina.jsp">Agregar Maquina</a></li>
-                <li><a href="Maquinas/EliminarMaquina.jsp">Eliminar Maquina</a></li>
-                <li><a href="Maquinas/MoverMaquina.jsp">Mover Maquina</a></li>
-                <li><a href="Maquinas/RepMaquina.jsp">Reparar Maquina</a></li>
-                <li><a href="Maquinas/ConsultarMaquinas.jsp">Consultar Maquinas</a></li>
-            </ul>
-        </nav>
 
-        <div>
-            <h2>Contenido principal</h2>
-            <p>Aquí puedes agregar una breve descripción o contenido principal que se mostrará en la página de inicio.</p>
-        </div>
+        <%
+            OperacionBD operacionBD = new OperacionBD();
+            List<Maquina> listaMaquinas = new ArrayList<>();
+
+            try {
+                if (operacionBD.conectar()) {
+                    listaMaquinas = operacionBD.consultarMaquina();
+                    operacionBD.desconectar();
+                } else {
+                    out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
+                }
+            } catch (Exception e) {
+                out.println("<p>Error: " + e.getMessage() + "</p>");
+            }
+        %>
+
+        <% if (listaMaquinas == null || listaMaquinas.isEmpty()) { %>
+        <p>No hay datos disponibles.</p>
+        <% } else { %>
+        <h2>Lista de Máquinas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Ubicación</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (Maquina maquina : listaMaquinas) {%>
+                <tr>
+                    <td><%= maquina.getNombre()%></td>
+                    <td><%= maquina.getTipo()%></td>
+                    <td><%= maquina.getUbicacion()%></td>
+                    <td><%= maquina.getEstado()%></td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <% }%>
     </body>
 </html>

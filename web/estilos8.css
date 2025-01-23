@@ -1,0 +1,124 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 05:30:38 AM
+    Author     : z23hu
+*/
+
+/* Fondo de la página */
+/*
+    Created on: 23/01/2025, 04:20:45 AM
+    Author: z23hu
+*/
+
+/* Estilo general para el body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #78B3CE; /* Color de fondo personalizado */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Para que los elementos se apilen verticalmente */
+    align-items: center; /* Para centrar todo horizontalmente */
+    justify-content: flex-start; /* Asegura que todo comience desde la parte superior */
+    height: 100vh; /* Altura completa de la ventana */
+}
+
+/* Centrar el título en la parte superior */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-top: 20px; /* Espacio desde la parte superior */
+    margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+/* Estilo para los formularios */
+form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-top: 20px;
+}
+
+/* Estilo para las etiquetas y campos de entrada */
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Estilo para el botón de envío */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para los mensajes */
+p {
+    color: #d9534f;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Estilos para la tabla de socios */
+table {
+    width: 80%; /* Ajustamos el tamaño de la tabla */
+    border-collapse: collapse;
+    margin-top: 30px; /* Espacio superior para la tabla */
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Estilo para el contenedor de las secciones */
+h2 {
+    color: #333;
+    margin-top: 20px;
+}
+
+/* Agregar margen al formulario de eliminación */
+form[action="ModSocios.jsp"] {
+    margin-top: 20px;
+}

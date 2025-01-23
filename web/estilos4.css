@@ -1,0 +1,103 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 04:55:00 AM
+    Author     : z23hu
+*/
+
+body {
+    background-color: #78B3CE;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Estilo para el título principal */
+h1 {
+    text-align: center;
+    color: #333; /* Gris */
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Estilo para los subtítulos */
+h3 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Estilo para el filtro */
+#filterSelect {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Estilo de la tabla */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+}
+
+td {
+    background-color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color alterno para las filas */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Resaltar la fila al pasar el mouse */
+}
+
+/* Estilo para el botón de reservar */
+.btn-reservar {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.btn-reservar:hover {
+    background-color: #45a049;
+}
+
+/* Mensajes de error o vacío */
+td[colspan="4"] {
+    text-align: center;
+    font-size: 18px;
+    color: red;
+    font-weight: bold;
+}

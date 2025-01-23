@@ -3,6 +3,7 @@
     Created on : Jan 18, 2025, 3:12:12 PM
     Author     : Kirig
 --%>
+
 <%@page import="java.util.List"%>
 <%@page import="modelo.Maquina"%>
 <%@page import="datos.OperacionBD"%>
@@ -11,77 +12,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Administración de Máquinas</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-    </style>
+    <!-- Vínculo al archivo CSS -->
+    <link rel="stylesheet" href="estilos9.css">
 </head>
 <body>
     <h1>Administración de Máquinas</h1>
 
-    <% 
-        OperacionBD operacionBD = new OperacionBD();
-        Maquina maquina = new Maquina();
-        String mensaje = "";
+<%
+    OperacionBD operacionBD = new OperacionBD();
+    String mensaje = "";
 
-        try {
-            if (operacionBD.conectar()) {
-                String accion = request.getParameter("accion");
+    try {
+        if (operacionBD.conectar()) {
+            String accion = request.getParameter("accion");
+            Maquina maquinaBD = new Maquina();
 
-                if ("agregar".equals(accion)) {
-                    // Agregar máquina
-                    maquina.setNombre(request.getParameter("nombre"));
-                    maquina.setTipo(request.getParameter("tipo"));
-                    maquina.setUbicacion(request.getParameter("ubicacion"));
-                    maquina.setEstado(request.getParameter("estado"));
+            if ("agregar".equals(accion)) {
+                // Agregar máquina
+                Maquina nuevaMaquina = new Maquina();
+                nuevaMaquina.setNombre(request.getParameter("nombre"));
+                nuevaMaquina.setTipo(request.getParameter("tipo"));
+                nuevaMaquina.setUbicacion(request.getParameter("ubicacion"));
+                nuevaMaquina.setEstado(request.getParameter("estado"));
 
-                    boolean resultado = maquina.agregarMaquina(maquina);
-                    mensaje = resultado ? "Máquina agregada con éxito." : "Error al agregar la máquina.";
-                } else if ("eliminar".equals(accion)) {
-                    // Eliminar máquina
-                    String idMaquina = request.getParameter("idMaquina");
-                    if (idMaquina != null && !idMaquina.isEmpty()) {
-                        boolean resultado = maquina.eliminarMaquina(Integer.parseInt(idMaquina));
-                        mensaje = resultado ? "Máquina eliminada con éxito." : "Error al eliminar la máquina.";
-                    }
-                } else if ("actualizar".equals(accion)) {
-                    // Actualizar máquina
-                    maquina.setId_maquina(Integer.parseInt(request.getParameter("idMaquinaActualizar")));
-                    maquina.setNombre(request.getParameter("nuevoNombre"));
-                    maquina.setTipo(request.getParameter("nuevoTipo"));
-                    maquina.setUbicacion(request.getParameter("nuevaUbicacion"));
-                    maquina.setEstado(request.getParameter("nuevoEstado"));
-
-                    boolean resultado = maquina.actualizarMaquina(maquina);
-                    mensaje = resultado ? "Máquina actualizada con éxito." : "Error al actualizar la máquina.";
+                boolean resultado = maquinaBD.agregarMaquina(nuevaMaquina);
+                mensaje = resultado ? "Máquina agregada con éxito." : "Error al agregar la máquina.";
+            } else if ("eliminar".equals(accion)) {
+                // Eliminar máquina
+                String idMaquina = request.getParameter("idMaquina");
+                if (idMaquina != null && !idMaquina.isEmpty()) {
+                    boolean resultado = maquinaBD.eliminarMaquina(idMaquina);
+                    mensaje = resultado ? "Máquina eliminada con éxito." : "Error al eliminar la máquina.";
                 }
-            } else {
-                mensaje = "Error al conectar con la base de datos.";
+            } else if ("actualizar".equals(accion)) {
+                // Actualizar máquina
+                Maquina maquinaActualizada = new Maquina();
+                maquinaActualizada.setId_maquina(request.getParameter("idMaquinaActualizar"));
+                maquinaActualizada.setNombre(request.getParameter("nuevoNombre"));
+                maquinaActualizada.setTipo(request.getParameter("nuevoTipo"));
+                maquinaActualizada.setUbicacion(request.getParameter("nuevaUbicacion"));
+                maquinaActualizada.setEstado(request.getParameter("nuevoEstado"));
+
+                boolean resultado = maquinaBD.actualizarMaquina(maquinaActualizada);
+                mensaje = resultado ? "Máquina actualizada con éxito." : "Error al actualizar la máquina.";
             }
-        } catch (Exception e) {
-            mensaje = "Error: " + e.getMessage();
-        } finally {
-            // Aseguramos que siempre se desconecte de la base de datos
-            try {
-                operacionBD.desconectar();
-            } catch (Exception e) {
-                // En caso de error al desconectar, no hacer nada
-            }
+
+            operacionBD.desconectar();
+        } else {
+            mensaje = "Error al conectar con la base de datos.";
         }
-    %>
+    } catch (Exception e) {
+        mensaje = "Error: " + e.getMessage();
+    }
+%>
+
 
     <% if (!mensaje.isEmpty()) { %>
         <p><%= mensaje %></p>
@@ -150,31 +134,43 @@
             </tr>
         </thead>
         <tbody>
-            <% 
-                try {
-                    if (operacionBD.conectar()) {
-                        List<Maquina> listaMaquinas = maquina.consultarMaquina();
-                        if (listaMaquinas != null && !listaMaquinas.isEmpty()) {
-                            for (Maquina m : listaMaquinas) { %>
-                                <tr>
-                                    <td><%= m.getId_maquina() %></td>
-                                    <td><%= m.getNombre() %></td>
-                                    <td><%= m.getTipo() %></td>
-                                    <td><%= m.getUbicacion() %></td>
-                                    <td><%= m.getEstado() %></td>
-                                </tr>
-            <%              }
-                        } else { %>
-                            <tr>
-                                <td colspan="5">No hay máquinas registradas.</td>
-                            </tr>
-            <%          }
-                    }
-                } catch (Exception e) { %>
+<%
+
+    try {
+        if (operacionBD.conectar()) {
+            Maquina maquinaBD = new Maquina();
+            List<Maquina> listaMaquinas = maquinaBD.consultarMaquina();
+            operacionBD.desconectar();
+
+            if (listaMaquinas != null && !listaMaquinas.isEmpty()) {
+                for (Maquina maquina : listaMaquinas) {
+%>
                     <tr>
-                        <td colspan="5">Error: <%= e.getMessage() %></td>
+                        <td><%= maquina.getId_maquina() %></td>
+                        <td><%= maquina.getNombre() %></td>
+                        <td><%= maquina.getTipo() %></td>
+                        <td><%= maquina.getUbicacion() %></td>
+                        <td><%= maquina.getEstado() %></td>
                     </tr>
-            <%  } %>
+<%
+                }
+            } else {
+%>
+                <tr>
+                    <td colspan="5">No hay máquinas registradas.</td>
+                </tr>
+<%
+            }
+        }
+    } catch (Exception e) {
+%>
+        <tr>
+            <td colspan="5">Error: <%= e.getMessage() %></td>
+        </tr>
+<%
+    }
+%>
+
         </tbody>
     </table>
 </body>

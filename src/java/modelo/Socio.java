@@ -5,6 +5,12 @@
  */
 package modelo;
 
+import datos.OperacionBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Duration;
@@ -29,12 +35,15 @@ public class Socio {
     private String duracion;
 
     private List<String> asistencia;
+    private OperacionBD operacionBD;
 
     public Socio() {
+        this.operacionBD = new OperacionBD();
     }
 
     public Socio(List<String> asistencia) {
         this.asistencia = asistencia;
+        this.operacionBD = new OperacionBD();
     }
 
     public Socio(String idSocio, String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String tipoMembresia, String estado, String duracion) {
@@ -48,6 +57,20 @@ public class Socio {
         this.estado = estado;
         this.duracion = duracion;
         this.asistencia = new ArrayList<>();
+        this.operacionBD = new OperacionBD();
+    }
+
+    public Socio(String nombre, LocalDate fechaNacimiento, String telefono, String email, LocalDate fechaInscripcion, String tipoMembresia, String estado, String duracion) {
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.email = email;
+        this.fechaInscripcion = fechaInscripcion;
+        this.tipoMembresia = tipoMembresia;
+        this.estado = estado;
+        this.duracion = duracion;
+        this.asistencia = new ArrayList<>();
+        this.operacionBD = new OperacionBD();
     }
 
     public String getIdSocio() {
@@ -139,9 +162,96 @@ public class Socio {
         return "Socio" + "idSocio" + idSocio + "nombre" + nombre + "fechaNacimiento=" + fechaNacimiento + "telefono=" + telefono + "email=" + email + "fechaInscripcion=" + fechaInscripcion + "tipoMembresia=" + tipoMembresia + "estado=" + estado + "duracion=" + duracion;
     }
 
-    public void registrarAsistencia(String actividad) {
-        String registro = "Actividad" + actividad + "-Fecha: " + LocalDate.now().toString();
-        this.asistencia.add(registro);
+    public boolean agregarSocio(Socio socio) {
+    String getMaxIdQuery = "SELECT COALESCE(MAX(id_socio), 0) + 1 AS next_id FROM Socios";
+    String insertQuery = "INSERT INTO Socios (id_socio, nombre, fecha_nacimiento, telefono, email, fecha_inscripcion, membresia, estado, duracion) "
+            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    try (Connection conexion = OperacionBD.getConnection();
+         Statement st = conexion.createStatement();
+         ResultSet rs = st.executeQuery(getMaxIdQuery)) {
+
+        if (rs.next()) {
+            int nextId = rs.getInt("next_id"); // Obtener el siguiente ID
+            socio.setIdSocio(String.valueOf(nextId)); // Asignar el nuevo ID al socio
+
+            try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+                ps.setInt(1, nextId); // Establecer el nuevo ID en la inserción
+                ps.setString(2, socio.getNombre());
+                ps.setDate(3, java.sql.Date.valueOf(socio.getFechaNacimiento()));
+                ps.setString(4, socio.getTelefono());
+                ps.setString(5, socio.getEmail());
+                ps.setDate(6, java.sql.Date.valueOf(socio.getFechaInscripcion()));
+                ps.setString(7, socio.getTipoMembresia());
+                ps.setString(8, socio.getEstado());
+                ps.setString(9, socio.getDuracion());
+                ps.executeUpdate();
+                return true;
+            }
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error al agregar socio: " + ex.getMessage());
     }
+    return false;
+}
+
+public boolean actualizarSocio(Socio socio) {
+    String query = "UPDATE Socios SET nombre = ?, fecha_nacimiento = ?, telefono = ?, email = ?, fecha_inscripcion = ?, membresia = ?, estado = ?, duracion = ? WHERE id_socio = ?";
+    try (Connection conexion = OperacionBD.getConnection();
+         PreparedStatement ps = conexion.prepareStatement(query)) {
+        ps.setString(1, socio.getNombre());
+        ps.setDate(2, java.sql.Date.valueOf(socio.getFechaNacimiento()));
+        ps.setString(3, socio.getTelefono());
+        ps.setString(4, socio.getEmail());
+        ps.setDate(5, java.sql.Date.valueOf(socio.getFechaInscripcion()));
+        ps.setString(6, socio.getTipoMembresia());
+        ps.setString(7, socio.getEstado());
+        ps.setString(8, socio.getDuracion());
+        ps.setInt(9, Integer.parseInt(socio.getIdSocio()));
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        System.out.println("Error al actualizar socio: " + ex.getMessage());
+    }
+    return false;
+}
+
+public boolean eliminarSocio(String idSocio) {
+    String deleteQuery = "DELETE FROM Socios WHERE id_socio = ?";
+    try (Connection conexion = OperacionBD.getConnection();
+         PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
+        ps.setInt(1, Integer.parseInt(idSocio));
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException ex) {
+        System.out.println("Error al eliminar socio: " + ex.getMessage());
+    }
+    return false;
+}
+
+public ArrayList<Socio> consultarSocio() {
+    ArrayList<Socio> socios = new ArrayList<>();
+    String query = "SELECT * FROM Socios";
+    try (Connection conexion = OperacionBD.getConnection();
+         Statement st = conexion.createStatement();
+         ResultSet rs = st.executeQuery(query)) {
+        while (rs.next()) {
+            Socio socio = new Socio();
+            socio.setIdSocio(rs.getString("id_socio"));
+            socio.setNombre(rs.getString("nombre"));
+            socio.setFechaNacimiento(rs.getDate("fecha_nacimiento").toLocalDate());
+            socio.setTelefono(rs.getString("telefono"));
+            socio.setEmail(rs.getString("email"));
+            socio.setFechaInscripcion(rs.getDate("fecha_inscripcion").toLocalDate());
+            socio.setTipoMembresia(rs.getString("membresia"));
+            socio.setEstado(rs.getString("estado"));
+            socio.setDuracion(rs.getString("duracion"));
+            socios.add(socio);
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+    return socios;
+}
 
 }

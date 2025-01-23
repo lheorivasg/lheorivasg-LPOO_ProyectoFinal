@@ -1,0 +1,65 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 05:02:38 AM
+    Author     : z23hu
+*/
+
+/* Estilo general para el body */
+body {
+    background-color: #78B3CE; /* El color de fondo que mencionaste */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Estilo para el título */
+h1 {
+    text-align: center;
+    color: #333;
+    font-size: 36px;
+    margin-top: 30px;
+}
+
+/* Estilo para la tabla */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;  /* Filas alternas con un color de fondo diferente */
+}
+
+tr:hover {
+    background-color: #f1f1f1; /* Efecto hover para resaltar filas */
+}
+
+/* Mensaje de no registros */
+p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
+}

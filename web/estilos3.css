@@ -1,0 +1,155 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 04:32:15 AM
+    Author     : z23hu
+*/
+/* General */
+body {
+    background-color: #78B3CE;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+/* Contenedor para el formulario */
+form {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+/* Estilo para los mensajes */
+p {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Asegura que las opciones de estado estén alineadas horizontalmente */
+.estado-membresia {
+    display: flex;
+    gap: 20px; /* Espaciado entre las opciones */
+    align-items: center;
+}
+
+/* Asegura que las etiquetas de tipo de membresía y su descripción estén alineadas y con buen espacio */
+.tipo-membresia {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaciado entre las opciones */
+}
+
+/* Ajuste del color y estilo de las descripciones */
+.tipo-membresia p {
+    margin-left: 20px; /* Indentación para las descripciones */
+    font-size: 14px;
+    color: #FF0000; /* Color rojo para las descripciones */
+    max-width: 100%; /* Asegura que los párrafos no se desborden */
+    word-wrap: break-word; /* Salto de línea si el texto es largo */
+}
+
+/* Estilo adicional para las etiquetas de formulario */
+form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Mejorar el aspecto de los inputs y select */
+input[type="text"], input[type="radio"], select {
+    margin: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: calc(100% - 16px); /* Asegura que los inputs se ajusten al 100% del contenedor */
+}
+
+/* Estilo para el botón de submit */
+input[type="submit"] {
+    background-color: #5C9ECF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #4A8AB5;
+}
+
+/* Espaciado entre las líneas de los inputs */
+input[type="text"], input[type="radio"], select, input[type="submit"] {
+    margin-top: 5px;
+}
+
+/* Asegurarse de que el formulario tenga márgenes adecuados */
+form div {
+    margin-bottom: 15px;
+}
+
+/* Estilo para las opciones de tipo de membresía */
+.tipo-membresia label {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+/* Alineación y espaciado para las opciones de radio debajo del texto */
+.tipo-membresia label {
+    display: flex;
+    flex-direction: column;  /* Cambio de columna para que el radio button esté debajo */
+    align-items: center;  /* Alineación del texto y el radio button */
+    margin-bottom: 20px; /* Separación entre las opciones */
+}
+
+.tipo-membresia input[type="radio"] {
+    margin-top: 5px; /* Espacio entre el texto y el radio button */
+    vertical-align: middle; /* Alineación del radio button */
+}
+
+/* Estilo para los radio buttons */
+.tipo-membresia input[type="radio"] {
+    margin-right: 10px; /* Añade espacio entre el radio y el texto */
+    vertical-align: middle; /* Alinea el radio button con el texto */
+}
+
+/* Alineación de las opciones de radio y el texto */
+.tipo-membresia label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo de los radio buttons para que estén alineados a la izquierda del texto */
+.tipo-membresia label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Estilo de las opciones de radio para alinearlas abajo del texto */
+.tipo-membresia input[type="radio"] {
+    margin-top: 5px; /* Separación entre el texto y el radio button */
+    vertical-align: middle;
+}

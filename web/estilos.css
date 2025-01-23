@@ -1,0 +1,257 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 23/01/2025, 01:16:09 AM
+    Author     : z23hu
+*/
+/* Estilo para el título */
+.titulo {
+    color: #FBF8EF;
+    text-align: center;
+    font-size: 60px;
+    font-family: Impact, fantasy;
+    font-weight: lighter;
+}
+.titulo2 {
+    color: #FFEB3B !important; /* Fuerza el color amarillo */
+    text-align: center;
+    font-size: 25px !important;
+    font-family: Impact, fantasy;
+    font-weight: lighter;
+}
+
+
+/* Fondo de la página */
+body {
+    background-color: #78B3CE;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del menú */
+nav {
+    text-align: center;
+    padding: 12px 0;
+    margin-top: 30px; /* Ajusta el espacio entre el título y el menú */
+    border-radius: 25px;
+    display: block; /* Asegura que el nav ocupe todo el ancho */
+    width: 100%; /* Garantiza que ocupe todo el ancho */
+    position: relative;
+    z-index: 10; /* Asegura que el menú esté por encima del contenido */
+}
+
+/* Estilos de la lista del menú */
+.menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centra los enlaces en la barra de navegación */
+    align-items: center;
+}
+
+/* Estilo de cada ítem de la lista */
+.menu li {
+    margin: 0 20px;
+    position: relative; /* Necesario para el menú desplegable */
+}
+
+/* Estilo de los enlaces en el menú */
+.menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border-radius: 30px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Efecto de hover */
+.menu a:hover {
+    background-color: #45a049;
+    transform: scale(1.1);
+}
+
+/* Estilos para el menú desplegable */
+.dropdown:hover .submenu {
+    display: block; /* Muestra el submenu cuando el mouse está sobre el item */
+}
+
+/* Oculta el submenu por defecto */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%; /* Coloca el submenú justo debajo del item */
+    left: 50%; /* Centra el submenú con respecto al item */
+    transform: translateX(-50%); /* Ajusta el submenú para que esté centrado */
+    background-color: transparent; /* Fondo transparente */
+    padding: 10px 0;
+    list-style-type: none;
+    margin: 0;
+    border-radius: 5px;
+    width: 200px; /* Ajusta el tamaño del menú desplegable */
+    z-index: 20; /* Asegura que el submenú esté por encima del contenido */
+}
+
+.submenu li {
+    margin: 0;
+    padding: 8px 20px;
+}
+
+.submenu a {
+    color: white;
+    font-size: 1.1em;
+    padding: 5px 15px;
+    background-color: transparent; /* Fondo transparente */
+    border-radius: 5px;
+    display: block;
+    text-decoration: none;
+}
+
+/* Efecto de hover en el submenú */
+.submenu a:hover {
+    background-color: #45a049; /* Cambia el fondo cuando se pasa el mouse sobre un elemento del submenú */
+}
+
+/* Fuente de Google Fonts para los enlaces del menú */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.menu a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #000;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    color: #007bff;
+}
+
+/* Estilo para la fecha y hora */
+.fechaHora {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 14px;
+    color: #000;
+    font-family: Arial, sans-serif;
+    background-color: #FBF8EF;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el contenido de bienvenida */
+#contenido {
+    margin-top: 120px; /* Ajusta el espacio superior */
+    padding: 40px; /* Relleno dentro del recuadro */
+    background: linear-gradient(145deg, #ffffff, #f1f1f1); /* Fondo degradado suave */
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #4CAF50; /* Borde verde suave */
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1); /* Sombra suave para un efecto de profundidad */
+    max-width: 900px; /* Máxima anchura del recuadro */
+    margin-left: auto;
+    margin-right: auto; /* Centra el recuadro */
+    color: #333; /* Color de texto */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Estilo para el título */
+#contenido h1 {
+    font-size: 50px;
+    font-family: 'Impact', fantasy;
+    color: #4CAF50; /* Color verde para el título */
+    text-align: center;
+    margin-bottom: 15px; /* Espacio debajo del título */
+}
+
+/* Estilo para el subtítulo */
+#contenido h2 {
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 25px; /* Espacio debajo del subtítulo */
+    font-weight: 400;
+}
+
+/* Estilo para el párrafo */
+#contenido p {
+    font-size: 18px;
+    line-height: 1.8; /* Espaciado entre líneas */
+    text-align: justify;
+    color: #555; /* Texto gris oscuro */
+    margin-bottom: 25px;
+    font-weight: 300;
+}
+
+/* Agregar animación de aparición del contenido */
+#contenido {
+    animation: fadeIn 1.5s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.logo {
+    max-height: 100px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+
+.nav-container {
+    display: flex;
+    justify-content: space-between; /* Espaciado entre logo y menú */
+    align-items: center;
+    padding: 10px 20px; /* Espaciado interno */
+    background-color: #4CAF50;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    margin: 0;
+}
+
+.menu {
+    gap: 15px; /* Espaciado uniforme entre los enlaces del menú */
+}
+
+
+.submenu {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo translúcido */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Sombra */
+    padding: 0;
+}
+
+.submenu li a {
+    color: #333; /* Texto oscuro para mejor visibilidad */
+}
+
+.submenu a:hover {
+    background-color: #4CAF50; /* Fondo verde consistente */
+    color: white; /* Texto blanco al pasar el cursor */
+}
+
+
+.fechaHora {
+    font-size: 16px; /* Tamaño un poco mayor */
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo translúcido */
+    color: #4CAF50; /* Color verde consistente */
+}
+

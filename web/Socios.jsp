@@ -9,9 +9,18 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Socio</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Bienvenido Socio</h1>
+        <nav>
+            <ul> <!-- Corregido: cambiado u1 a ul -->
+                <li><a href="socioRegistro.jsp">Registrarse</a></li>
+                <li><a href="actualizar_membresia.jsp">Actualiza tu membresía</a></li> 
+                <li><a href="Catalogo_de_actividades.jsp">Catálogo de actividades</a></li> 
+                <li><a href="historial_asistencia.jsp">Historial de asistencia</a></li> 
+                <li><a href="tabla_clasificacion.jsp">Tabla de Clasificaciones</a></li> 
+            </ul>
+        </nav>
     </body>
 </html>

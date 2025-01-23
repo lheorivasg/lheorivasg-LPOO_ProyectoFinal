@@ -4,26 +4,65 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html>
+<html lang="es">
     <head>
-        <title>Gym</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pulse Fitness</title>
+        <link href="estilos.css" rel="stylesheet"> <!-- Enlace al archivo de estilos externo -->
+        <script>
+            function actualizarFechaHora() {
+                var now = new Date();
+                var fecha = now.toLocaleDateString(); // Formato de fecha
+                var hora = now.toLocaleTimeString(); // Formato de hora
+                document.getElementById('fechaHora').innerHTML = fecha + ' ' + hora;
+            }
+            setInterval(actualizarFechaHora, 1000); // Actualiza cada segundo
+        </script>
     </head>
     <body>
-        <h1>Bienvenidos al Gimnasio</h1>
-        <nav>
-            <ul>
-                <li><a href="Administracion.jsp">Administracion</a></li>
-                <li><a href="Socios.jsp">Para Socio</a></li>
-                <li><a href="Entrenadores.jsp">Para Entrenadores</a></li>
-                <li><a href="Maquinas.jsp">Maquinas</a></li>
-            </ul>
-        </nav>
+        <header>
+            <div class="nav-container">
+                <img src="Pulse_Fitness.png" alt="Logo Pulse Fitness" class="logo"> <!-- Inserta la imagen aquí -->
+                <nav>
+                    <ul class="menu">
+                        <li class="dropdown">
+                            <a href="#">Socios</a>
+                            <ul class="submenu">
+                                <li><a href="socioRegistro.jsp">Registrarse</a></li>
+                                <li><a href="actualizar_membresia.jsp">Actualiza tu membresía</a></li>
+                                <li><a href="Catalogo_de_actividades.jsp">Catálogo de actividades</a></li>
+                                <li><a href="historial_asistencia.jsp">Historial de asistencia</a></li>
+                                <li><a href="tabla_clasificacion.jsp">Tabla de Clasificaciones</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="Entrenadores.jsp">Entrenadores</a></li>
+                        <li><a href="Maquinas.jsp">Máquinas</a></li>
+                        <li><a href="Estadistica.jsp">Estadística</a></li> <!-- Nueva pestaña Eventos -->
+                        <li class="dropdown">
+                            <a href="#">Administración</a>
+                            <ul class="submenu">
+                                <li><a href="ModSocios.jsp">Consultar Socio</a></li>
+                                <li><a href="ModEntrenadores.jsp">Consultar Entrenador</a></li>
+                                <li><a href="ModMaquinas.jsp">Consultar Máquinas</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-        <div>
-            <h2>Contenido principal</h2>
-            <p>Aquí puedes agregar una breve descripción o contenido principal que se mostrará en la página de inicio.</p>
+        <!-- Mostrar la fecha y hora en la esquina -->
+        <div id="fechaHora" class="fechaHora"></div>
+
+        <!-- Contenido principal -->
+        <div id="contenido" class="bienvenida">
+            <p class="titulo2">Bienvenido a Pulse Fitness</p>
+
+            <p>En Pulse Fitness, te ofrecemos un ambiente motivador con equipos de última generación y entrenadores expertos que te guiarán en cada paso de tu camino. Desde entrenamientos personalizados hasta clases energizantes, nuestro objetivo es ayudarte a alcanzar tu máximo potencial.</p>
+            <p><strong><i>Transforma tu energía, supera tus límites</i></strong></p>
         </div>
     </body>
 </html>
+
+
