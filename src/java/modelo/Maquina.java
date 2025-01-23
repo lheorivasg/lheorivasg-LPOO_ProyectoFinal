@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Maquina {
-    private String id_maquina;
+    private int id_maquina;
     private String nombre;
     private String tipo;
     private String ubicacion;
@@ -27,7 +27,7 @@ public class Maquina {
         this.conexion = conexion;
     }
 
-    public Maquina(String id_maquina, String nombre, String tipo, String ubicacion, String estado, Connection conexion) {
+    public Maquina(int id_maquina, String nombre, String tipo, String ubicacion, String estado, Connection conexion) {
         this.id_maquina = id_maquina;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -36,11 +36,11 @@ public class Maquina {
         this.conexion = conexion;
     }
 
-    public String getId_maquina() {
+    public int getId_maquina() {
         return id_maquina;
     }
 
-    public void setId_maquina(String id_maquina) {
+    public void setId_maquina(int id_maquina) {
         this.id_maquina = id_maquina;
     }
 
@@ -83,7 +83,7 @@ public class Maquina {
         try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 Maquina maquina = new Maquina();
-                maquina.setId_maquina(rs.getString("id_maquina"));
+                maquina.setId_maquina(rs.getInt("id_maquina"));
                 maquina.setNombre(rs.getString("nombre"));
                 maquina.setTipo(rs.getString("tipo"));
                 maquina.setUbicacion(rs.getString("ubicacion"));
@@ -106,7 +106,7 @@ public class Maquina {
 
             if (rs.next()) {
                 int nextId = rs.getInt("next_id");
-                maquina.setId_maquina(String.valueOf(nextId));
+                maquina.setId_maquina(nextId);  // Usa el ID calculado directamente como int
 
                 // Insertar la máquina con el nuevo ID calculado
                 try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
@@ -133,7 +133,7 @@ public class Maquina {
             ps.setString(2, maquina.getTipo());
             ps.setString(3, maquina.getUbicacion());
             ps.setString(4, maquina.getEstado());
-            ps.setInt(5, Integer.parseInt(maquina.getId_maquina()));
+            ps.setInt(5, maquina.getId_maquina());  // Usa int directamente
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -143,11 +143,12 @@ public class Maquina {
     }
 
     // Eliminar máquina
-    public boolean eliminarMaquina(String idMaquina) {
+    public boolean eliminarMaquina(int idMaquina) {  // Cambiar a int
         String deleteQuery = "DELETE FROM Maquinas WHERE id_maquina = ?";
         String resetAutoIncrementQuery = "ALTER TABLE Maquinas AUTO_INCREMENT = ?";
+
         try (PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
-            ps.setInt(1, Integer.parseInt(idMaquina));
+            ps.setInt(1, idMaquina);  // Usa int directamente
             ps.executeUpdate();
 
             // Obtener el último ID

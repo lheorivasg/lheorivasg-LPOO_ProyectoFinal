@@ -54,12 +54,12 @@
                     // Eliminar máquina
                     String idMaquina = request.getParameter("idMaquina");
                     if (idMaquina != null && !idMaquina.isEmpty()) {
-                        boolean resultado = maquina.eliminarMaquina(idMaquina);
+                        boolean resultado = maquina.eliminarMaquina(Integer.parseInt(idMaquina));
                         mensaje = resultado ? "Máquina eliminada con éxito." : "Error al eliminar la máquina.";
                     }
                 } else if ("actualizar".equals(accion)) {
                     // Actualizar máquina
-                    maquina.setId_maquina(request.getParameter("idMaquinaActualizar"));
+                    maquina.setId_maquina(Integer.parseInt(request.getParameter("idMaquinaActualizar")));
                     maquina.setNombre(request.getParameter("nuevoNombre"));
                     maquina.setTipo(request.getParameter("nuevoTipo"));
                     maquina.setUbicacion(request.getParameter("nuevaUbicacion"));
@@ -68,13 +68,18 @@
                     boolean resultado = maquina.actualizarMaquina(maquina);
                     mensaje = resultado ? "Máquina actualizada con éxito." : "Error al actualizar la máquina.";
                 }
-
-                operacionBD.desconectar();
             } else {
                 mensaje = "Error al conectar con la base de datos.";
             }
         } catch (Exception e) {
             mensaje = "Error: " + e.getMessage();
+        } finally {
+            // Aseguramos que siempre se desconecte de la base de datos
+            try {
+                operacionBD.desconectar();
+            } catch (Exception e) {
+                // En caso de error al desconectar, no hacer nada
+            }
         }
     %>
 
@@ -149,8 +154,6 @@
                 try {
                     if (operacionBD.conectar()) {
                         List<Maquina> listaMaquinas = maquina.consultarMaquina();
-                        operacionBD.desconectar();
-
                         if (listaMaquinas != null && !listaMaquinas.isEmpty()) {
                             for (Maquina m : listaMaquinas) { %>
                                 <tr>
@@ -176,4 +179,3 @@
     </table>
 </body>
 </html>
-

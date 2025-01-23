@@ -18,7 +18,7 @@ import java.time.Duration;
  * @author Equipo 5: Max Alvarez Alvarez, Hugo Rubio Romero y Leonardo Rivas Gutierrez
  */
 public class Entrenador {
-    private String idEntrenador;
+    private int idEntrenador;  // Cambié de String a int
     private String nombre;
     private String especialidad;
     private String telefono;
@@ -28,7 +28,7 @@ public class Entrenador {
     private LocalDateTime horaSalida;
 
     // Constructor completo
-    public Entrenador(String idEntrenador, String nombre, String especialidad, String telefono, String horario, String estado) {
+    public Entrenador(int idEntrenador, String nombre, String especialidad, String telefono, String horario, String estado) {
         this.idEntrenador = idEntrenador;
         this.nombre = nombre;
         this.especialidad = especialidad;
@@ -109,7 +109,6 @@ public class Entrenador {
         }
     }    
     
-    
     public boolean modificarHorario(int idEntrenador, String nuevoHorario) {
         String query = "UPDATE Entrenadores SET horario = ? WHERE id_entrenador = ?";
         try (Connection con = OperacionBD.getConnection();
@@ -125,16 +124,13 @@ public class Entrenador {
             return false;
         }
     }    
-    
-    
-    //Reescribir actualizar metodo de actualizar para que modifique disponibilidad y horario
 
     // Getters y setters
-    public String getIdEntrenador() {
+    public int getIdEntrenador() {
         return idEntrenador;
     }
 
-    public void setIdEntrenador(String idEntrenador) {
+    public void setIdEntrenador(int idEntrenador) {
         this.idEntrenador = idEntrenador;
     }
 
@@ -197,7 +193,7 @@ public class Entrenador {
     @Override
     public String toString() {
         return "Entrenador{" +
-                "idEntrenador='" + idEntrenador + '\'' +
+                "idEntrenador=" + idEntrenador + // Cambié el tipo a int
                 ", nombre='" + nombre + '\'' +
                 ", especialidad='" + especialidad + '\'' +
                 ", telefono='" + telefono + '\'' +
@@ -208,4 +204,3 @@ public class Entrenador {
                 '}';
     }
 }
-

@@ -157,13 +157,14 @@ public class OperacionBD {
     }
 
     // Operaciones para Entrenadores
+// Operaciones para Entrenadores
     public ArrayList<Entrenador> consultarEntrenador() {
         ArrayList<Entrenador> entrenadores = new ArrayList<>();
         String query = "SELECT * FROM Entrenadores";
         try (Statement st = conexion.createStatement(); ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 Entrenador entrenador = new Entrenador();
-                entrenador.setIdEntrenador(rs.getString("id_entrenador"));
+                entrenador.setIdEntrenador(rs.getInt("id_entrenador"));  // Cambié a int
                 entrenador.setNombre(rs.getString("nombre"));
                 entrenador.setEspecialidad(rs.getString("especialidad"));
                 entrenador.setTelefono(rs.getString("telefono"));
@@ -185,12 +186,12 @@ public class OperacionBD {
                 ResultSet rs = st.executeQuery(getMaxIdQuery)) {
 
             if (rs.next()) {
-                int nextId = rs.getInt("next_id"); // Calcular el siguiente ID
-                entrenador.setIdEntrenador(String.valueOf(nextId));
+                int nextId = rs.getInt("next_id"); // ID calculado
+                entrenador.setIdEntrenador(nextId); // Cambié a int
 
                 // Insertar el entrenador con el nuevo ID calculado
                 try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
-                    ps.setInt(1, nextId); // ID calculado
+                    ps.setInt(1, nextId);  // Cambié a int
                     ps.setString(2, entrenador.getNombre());
                     ps.setString(3, entrenador.getEspecialidad());
                     ps.setString(4, entrenador.getTelefono());
@@ -214,7 +215,7 @@ public class OperacionBD {
             ps.setString(3, entrenador.getTelefono());
             ps.setString(4, entrenador.getHorario());
             ps.setString(5, entrenador.getEstado());
-            ps.setInt(6, Integer.parseInt(entrenador.getIdEntrenador()));
+            ps.setInt(6, entrenador.getIdEntrenador());  // Cambié a int
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -223,11 +224,11 @@ public class OperacionBD {
         return false;
     }
 
-    public boolean eliminarEntrenador(String idEntrenador) {
+    public boolean eliminarEntrenador(int idEntrenador) {  // Cambié a int
         String deleteQuery = "DELETE FROM Entrenadores WHERE id_entrenador = ?";
         String resetAutoIncrementQuery = "ALTER TABLE Entrenadores AUTO_INCREMENT = ?";
         try (PreparedStatement ps = conexion.prepareStatement(deleteQuery)) {
-            ps.setInt(1, Integer.parseInt(idEntrenador));
+            ps.setInt(1, idEntrenador);  // Cambié a int
             ps.executeUpdate();
 
             // Obtener el último ID
@@ -247,6 +248,7 @@ public class OperacionBD {
         }
         return false;
     }
+
 
 
 }
