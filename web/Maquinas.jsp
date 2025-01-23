@@ -37,21 +37,24 @@
     </head>
     <body>
 
-        <%
-            OperacionBD operacionBD = new OperacionBD();
-            List<Maquina> listaMaquinas = new ArrayList<>();
+<%
+    OperacionBD operacionBD = new OperacionBD();
+    List<Maquina> listaMaquinas = new ArrayList<>();
 
-            try {
-                if (operacionBD.conectar()) {
-                    listaMaquinas = operacionBD.consultarMaquina();
-                    operacionBD.desconectar();
-                } else {
-                    out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
-                }
-            } catch (Exception e) {
-                out.println("<p>Error: " + e.getMessage() + "</p>");
-            }
-        %>
+    try {
+        if (operacionBD.conectar()) {
+            // Suponiendo que el método consulta está en la clase Maquina y devuelve una lista de Maquina
+            Maquina maquina = new Maquina();
+            listaMaquinas = maquina.consultarMaquina();
+            operacionBD.desconectar();
+        } else {
+            out.println("<p>Error: No se pudo conectar a la base de datos.</p>");
+        }
+    } catch (Exception e) {
+        out.println("<p>Error: " + e.getMessage() + "</p>");
+    }
+%>
+
 
         <% if (listaMaquinas == null || listaMaquinas.isEmpty()) { %>
         <p>No hay datos disponibles.</p>
