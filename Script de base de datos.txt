@@ -1,0 +1,148 @@
+CREATE DATABASE IF NOT 
+EXISTS Gimnasio; 
+
+use Gimnasio; 
+
+CREATE TABLE Maquinas (
+    id_maquina INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    ubicacion VARCHAR(50),
+    estado VARCHAR(20) DEFAULT 'Operativa'
+);
+
+INSERT INTO Maquinas (nombre, tipo, ubicacion, estado)
+VALUES 
+('Caminadora Pro 5000', 'Cardio', 'Zona Cardio', 'Operativa'),
+('Bicicleta Estática Pro', 'Cardio', 'Zona Cardio', 'Operativa'),
+('Remadora Concept2', 'Cardio', 'Zona Cardio', 'Operativa'),
+('Press de Banca', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Poleas', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Elíptica Pro', 'Cardio', 'Zona Cardio', 'Operativa'),
+('Multifunción Pro', 'Pesas', 'Zona Multifunción', 'Operativa'),
+('Máquina de Extensión de Pierna', 'Pesas', 'Zona Piernas', 'Operativa'),
+('Máquina de Curl de Pierna', 'Pesas', 'Zona Piernas', 'Operativa'),
+('Banco de Abdominales', 'Core', 'Zona Abdominal', 'Operativa'),
+('Máquina de Press de Pierna', 'Pesas', 'Zona Piernas', 'En Reparación'),
+('Rack de Sentadillas', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Bicicleta de Spinning', 'Cardio', 'Zona Spinning', 'Operativa'),
+('Stepper', 'Cardio', 'Zona Cardio', 'Operativa'),
+('Cinta de Resistencia', 'Funcional', 'Zona Funcional', 'Operativa'),
+('Máquina de Press de Hombros', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Abductores', 'Pesas', 'Zona Piernas', 'Operativa'),
+('Máquina de Adductores', 'Pesas', 'Zona Piernas', 'Operativa'),
+('Máquina de Remo Bajo', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Press Inclinado', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Jalón al Pecho', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Cuerda de Batalla', 'Funcional', 'Zona Funcional', 'Operativa'),
+('Máquina de Gemelos', 'Pesas', 'Zona Piernas', 'Operativa'),
+('Máquina Smith', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Press de Pecho', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Banco Plano', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Barra Olímpica', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Pesa Rusa', 'Funcional', 'Zona Funcional', 'Operativa'),
+('Set de Mancuernas', 'Pesas', 'Zona Pesas', 'Operativa'),
+('Máquina de Dorsales', 'Pesas', 'Zona Pesas', 'Operativa');
+
+
+
+-- Crear la tabla incluyendo las nuevas columnas como DATETIME
+CREATE TABLE Entrenadores (
+    id_entrenador INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    especialidad VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15),
+    horario VARCHAR(50) NOT NULL,
+    estado VARCHAR(20) DEFAULT 'Activo',
+    hora_entrada DATETIME NULL,
+    hora_salida DATETIME NULL
+);
+
+-- Insertar datos con las nuevas columnas
+INSERT INTO Entrenadores (nombre, especialidad, telefono, horario, estado, hora_entrada, hora_salida)
+VALUES 
+('Juan Perez', 'Entrenamiento Funcional', '555-123-4567', '08:00-14:00', 'Activo', '2025-01-22 08:00:00', '2025-01-22 14:00:00'),
+('Maria Lopez', 'Yoga', '555-234-5678', '09:00-15:00', 'Activo', '2025-01-22 09:00:00', '2025-01-22 15:00:00'),
+('Carlos Sanchez', 'Spinning', '555-345-6789', '10:00-16:00', 'Activo', '2025-01-22 10:00:00', '2025-01-22 16:00:00'),
+('Ana Torres', 'Cardio', '555-456-7890', '11:00-17:00', 'Activo', '2025-01-22 11:00:00', '2025-01-22 17:00:00'),
+('Luis Gomez', 'Pesas', '555-567-8901', '12:00-18:00', 'Activo', '2025-01-22 12:00:00', '2025-01-22 18:00:00'),
+('Sofia Ramirez', 'CrossFit', '555-678-9012', '13:00-19:00', 'Activo', '2025-01-22 13:00:00', '2025-01-22 19:00:00'),
+('Miguel Fernandez', 'Boxeo', '555-789-0123', '14:00-20:00', 'Activo', '2025-01-22 14:00:00', '2025-01-22 20:00:00'),
+('Laura Martinez', 'Pilates', '555-890-1234', '15:00-21:00', 'Activo', '2025-01-22 15:00:00', '2025-01-22 21:00:00'),
+('Diego Castro', 'HIIT', '555-901-2345', '16:00-22:00', 'Activo', '2025-01-22 16:00:00', '2025-01-22 22:00:00'),
+('Valeria Ortiz', 'Zumba', '555-012-3456', '08:00-14:00', 'Activo', '2025-01-22 08:00:00', '2025-01-22 14:00:00'),
+('Fernando Vega', 'Entrenamiento Personalizado', '555-123-4568', '09:00-15:00', 'Activo', '2025-01-22 09:00:00', '2025-01-22 15:00:00'),
+('Elena Ruiz', 'Aeróbicos', '555-234-5679', '10:00-16:00', 'Activo', '2025-01-22 10:00:00', '2025-01-22 16:00:00'),
+('Oscar Mendez', 'Entrenamiento Deportivo', '555-345-6780', '11:00-17:00', 'Activo', '2025-01-22 11:00:00', '2025-01-22 17:00:00'),
+('Claudia Chavez', 'Rehabilitación Física', '555-456-7891', '12:00-18:00', 'Activo', '2025-01-22 12:00:00', '2025-01-22 18:00:00'),
+('Ricardo Navarro', 'Entrenamiento Funcional', '555-567-8902', '13:00-19:00', 'Activo', '2025-01-22 13:00:00', '2025-01-22 19:00:00'),
+('Patricia Jimenez', 'Yoga', '555-678-9013', '14:00-20:00', 'Activo', '2025-01-22 14:00:00', '2025-01-22 20:00:00'),
+('Jorge Herrera', 'Spinning', '555-789-0124', '15:00-21:00', 'Activo', '2025-01-22 15:00:00', '2025-01-22 21:00:00'),
+('Andrea Salinas', 'Cardio', '555-890-1235', '16:00-22:00', 'Activo', '2025-01-22 16:00:00', '2025-01-22 22:00:00'),
+('Marcos Rios', 'Pesas', '555-901-2346', '08:00-14:00', 'Activo', '2025-01-22 08:00:00', '2025-01-22 14:00:00'),
+('Monica Reyes', 'CrossFit', '555-012-3457', '09:00-15:00', 'Activo', '2025-01-22 09:00:00', '2025-01-22 15:00:00'),
+('Hector Morales', 'Boxeo', '555-123-4569', '10:00-16:00', 'Activo', '2025-01-22 10:00:00', '2025-01-22 16:00:00'),
+('Daniela Peña', 'Pilates', '555-234-5670', '11:00-17:00', 'Activo', '2025-01-22 11:00:00', '2025-01-22 17:00:00'),
+('Francisco Dominguez', 'HIIT', '555-345-6781', '12:00-18:00', 'Activo', '2025-01-22 12:00:00', '2025-01-22 18:00:00'),
+('Carolina Aguilar', 'Zumba', '555-456-7892', '13:00-19:00', 'Activo', '2025-01-22 13:00:00', '2025-01-22 19:00:00'),
+('Ivan Estrada', 'Entrenamiento Personalizado', '555-567-8903', '14:00-20:00', 'Activo', '2025-01-22 14:00:00', '2025-01-22 20:00:00'),
+('Victoria Lara', 'Aeróbicos', '555-678-9014', '15:00-21:00', 'Activo', '2025-01-22 15:00:00', '2025-01-22 21:00:00'),
+('Esteban Campos', 'Entrenamiento Deportivo', '555-789-0125', '16:00-22:00', 'Activo', '2025-01-22 16:00:00', '2025-01-22 22:00:00'),
+('Rosa Flores', 'Rehabilitación Física', '555-890-1236', '08:00-14:00', 'Activo', '2025-01-22 08:00:00', '2025-01-22 14:00:00'),
+('Pablo Delgado', 'CrossFit', '555-901-2347', '09:00-15:00', 'Activo', '2025-01-22 09:00:00', '2025-01-22 15:00:00'),
+('Liliana Mendoza', 'Yoga', '555-012-3458', '10:00-16:00', 'Activo', '2025-01-22 10:00:00', '2025-01-22 16:00:00');
+
+
+
+
+-- Crear la tabla con las modificaciones
+CREATE TABLE Socios (
+    id_socio INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(100),
+    fecha_inscripcion DATE NOT NULL,
+    membresia VARCHAR(50) NOT NULL,
+    estado VARCHAR(20) DEFAULT 'Suscribirse',
+    duracion VARCHAR(20) NOT NULL
+);
+
+-- Insertar los datos con las nuevas columnas
+INSERT INTO Socios (nombre, fecha_nacimiento, telefono, email, fecha_inscripcion, membresia, estado, duracion) VALUES
+('Alejandro Pérez', '1990-05-14', '5551234567', 'alejandro.perez@example.com', '2022-01-10', 'Power Smart', 'Suscribirse', 'Mensual'),
+('María González', '1985-03-22', '5559876543', 'maria.gonzalez@example.com', '2022-02-15', 'Max Performance', 'Suscribirse', 'Anual'),
+('Carlos López', '1992-07-09', '5555647382', 'carlos.lopez@example.com', '2023-03-01', 'Full Flex', 'Cancelar', 'Semestral'),
+('Laura Fernández', '1995-12-25', '5556781234', 'laura.fernandez@example.com', '2023-05-20', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Ricardo Ramírez', '1988-11-12', '5553218765', 'ricardo.ramirez@example.com', '2021-08-15', 'Elite', 'Suscribirse', 'Anual'),
+('Ana Torres', '1999-01-30', '5554329876', 'ana.torres@example.com', '2022-10-11', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Jorge Sánchez', '1993-04-18', '5551236789', 'jorge.sanchez@example.com', '2022-07-24', 'Full Flex', 'Cancelar', 'Semestral'),
+('Sofía Díaz', '1997-06-05', '5559871234', 'sofia.diaz@example.com', '2023-02-18', 'Max Performance', 'Suscribirse', 'Anual'),
+('Miguel Castillo', '1987-09-29', '5556784321', 'miguel.castillo@example.com', '2021-11-05', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Lucía Méndez', '1994-02-17', '5551238765', 'lucia.mendez@example.com', '2023-01-10', 'Power Smart', 'Suscribirse', 'Mensual'),
+('David Herrera', '1996-08-21', '5554321234', 'david.herrera@example.com', '2022-04-30', 'Power Smart', 'Cancelar', 'Mensual'),
+('Gabriela Morales', '1989-10-13', '5557891234', 'gabriela.morales@example.com', '2021-09-15', 'Max Performance', 'Suscribirse', 'Anual'),
+('Andrés Cruz', '1991-11-02', '5556549876', 'andres.cruz@example.com', '2023-06-05', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Patricia Navarro', '1998-03-10', '5553211234', 'patricia.navarro@example.com', '2023-03-27', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Sergio Vargas', '1986-12-19', '5558765432', 'sergio.vargas@example.com', '2022-05-20', 'Max Performance', 'Cancelar', 'Anual'),
+('Daniela Jiménez', '1995-04-07', '5554326789', 'daniela.jimenez@example.com', '2023-01-30', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Francisco Silva', '1993-09-15', '5556789876', 'francisco.silva@example.com', '2021-07-10', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Carolina Rivera', '1997-11-22', '5551239876', 'carolina.rivera@example.com', '2023-04-15', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Luis Martínez', '1990-06-11', '5553216789', 'luis.martinez@example.com', '2022-06-01', 'Elite', 'Suscribirse', 'Anual'),
+('Carmen Rojas', '1992-02-05', '5559874321', 'carmen.rojas@example.com', '2021-10-20', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Héctor Ortega', '1996-07-30', '5556543210', 'hector.ortega@example.com', '2022-11-15', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Mónica Álvarez', '1988-01-14', '5557894321', 'monica.alvarez@example.com', '2023-02-10', 'Max Performance', 'Suscribirse', 'Anual'),
+('Felipe Vargas', '1991-03-27', '5558761234', 'felipe.vargas@example.com', '2022-08-05', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Sandra Reyes', '1999-05-18', '5554327891', 'sandra.reyes@example.com', '2023-01-25', 'Max Performance', 'Suscribirse', 'Anual'),
+('Ramón Paredes', '1994-12-01', '5551237890', 'ramon.paredes@example.com', '2021-12-10', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Claudia Castro', '1998-08-03', '5556785432', 'claudia.castro@example.com', '2022-03-15', 'Power Smart', 'Cancelar', 'Mensual'),
+('Antonio Peña', '1997-10-10', '5559876542', 'antonio.pena@example.com', '2023-05-12', 'Max Performance', 'Suscribirse', 'Anual'),
+('Mariana Salinas', '1990-09-23', '5553219876', 'mariana.salinas@example.com', '2022-01-05', 'Power Smart', 'Suscribirse', 'Mensual'),
+('Roberto García', '1987-06-17', '5556547890', 'roberto.garcia@example.com', '2021-09-28', 'Full Flex', 'Suscribirse', 'Semestral'),
+('Natalia Ruiz', '1995-11-05', '5558763214', 'natalia.ruiz@example.com', '2023-03-03', 'Power Smart', 'Suscribirse', 'Mensual');
+
+
+
+
+SELECT * FROM Socios;
+desc socios;
